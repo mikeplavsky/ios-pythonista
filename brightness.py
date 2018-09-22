@@ -44,12 +44,12 @@ def max(sender):
 	
 
 def plus(sender):
-	f = lambda x: x + 0.001
+	f = lambda x: x + 0.003
 	set_brightness_value(f,sender.superview)
 	
 	
 def minus(sender):
-	f = lambda x: x - 0.001
+	f = lambda x: x - 0.003
 	set_brightness_value(f,sender.superview)
 	
 def close(sender):
