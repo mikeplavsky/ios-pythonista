@@ -47,7 +47,7 @@ def create_file(
 	if f:
 		json['sha'] = f['sha']
 		
-	print('Saving to github')
+	print('Saving to github...')
 	
 	res = requests.put(
 	
