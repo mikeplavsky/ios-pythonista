@@ -35,7 +35,7 @@ def create_file(
 	
 	try:
 		f = get_file(path).json()
-		print(f'Found ${path} on github')
+		print(f'Found {path} on github')
 	except Exception as ex:
 		print('first time save')
 	
