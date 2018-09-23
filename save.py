@@ -36,7 +36,7 @@ def create_file(
 	try:
 		f = get_file(path).json()
 	except Exception as ex:
-		print(ex)
+		print('first time save')
 	
 	git_user,git_key = get_credentials(git_repo)
 	
