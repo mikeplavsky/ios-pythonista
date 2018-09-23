@@ -69,7 +69,10 @@ def get_file(path):
 	return res
 
 def save_file(path, msg):
+	
 	with open(path) as f:
 		s = f.read()
 		create_file(path, msg, s.encode())
+		
+	print('Done.')
 
