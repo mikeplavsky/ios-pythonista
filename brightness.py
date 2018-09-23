@@ -54,19 +54,30 @@ def minus(sender):
 	
 def close(sender):
 	sender.superview.close()
-	import os
-	os.remove('brightness.lock')
+	sender.superview.socket.close()
 	
-
-def main():
+def is_running():
+	
+	import socket 
+	s = socket.socket(socket.AF_INET,
+		socket.SOCK_STREAM)
 	
 	try:
-		open('brightness.lock')
-		return 
-	except:
-		open('brightness.lock','w+')	
+		
+		s.bind(('localhost', 8888))
+		return False, s
+		
+	except Exception as ex:
+		return True, None
+	
+def main():
+	
+	r, s = is_running()
+	if r:
+		return
 
 	v = ui.load_view('brightness')
+	v.socket = s
 	
 	import math
 	
