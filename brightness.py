@@ -1,5 +1,16 @@
 import ui
 from objc_util import *
+import threading
+
+class T(threading.Thread):
+	
+	def __init__(self):
+		threading.Thread.__init__(self)
+		self.stop = threading.Event()
+		
+	def run(self):
+		self.stop.wait()
+		
 
 class Updater(ui.View):
 	def __init__(self):
@@ -9,6 +20,7 @@ class Updater(ui.View):
 		v = self.superview
 		set_brightness_value(
 			lambda x:x,v)
+
 
 def set_brightness(x,v):
 	
@@ -54,30 +66,27 @@ def minus(sender):
 	
 def close(sender):
 	sender.superview.close()
-	sender.superview.socket.close()
+	sender.superview.t.stop.set()
 	
 def is_running():
-	
-	import socket 
-	s = socket.socket(socket.AF_INET,
-		socket.SOCK_STREAM)
-	
-	try:
-		
-		s.bind(('localhost', 8888))
-		return False, s
-		
-	except Exception as ex:
+
+	if threading.active_count() > 1:
 		return True, None
+	
+	t = T()
+	t.start()
+	
+	return False, t
+	
 	
 def main():
 	
-	r, s = is_running()
+	r,t = is_running()
 	if r:
 		return
 
 	v = ui.load_view('brightness')
-	v.socket = s
+	v.t = t
 	
 	import math
 	
