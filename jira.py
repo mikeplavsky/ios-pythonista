@@ -33,6 +33,6 @@ def get_curr_stories(board_id):
 	
 def enum_stories(board_id):
 	res = get_curr_stories(board_id)['issues']
-	for i in res:
-		print(f"- {i['fields']['summary']}")
+	for i,v in enumerate(res):
+		print(f"{i+1}. {v['fields']['summary']}")
 	
