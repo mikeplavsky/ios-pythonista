@@ -11,7 +11,9 @@ def get_jira(url):
 	res = r.get(url, 
 		auth=HTTPBasicAuth(usr,pwd))
 		
+	print(f'getting {url} ...')
 	res.raise_for_status()
+	print('done.')
 		
 	return res.json()
 
@@ -28,3 +30,9 @@ def get_curr_stories(board_id):
 	url = f'https://{jira_host}/rest/agile/latest/board/{board_id}/sprint/{sprint}/issue'
 	
 	return get_jira(url)
+	
+def enum_stories(board_id):
+	res = get_curr_stories(board_id)['issues']
+	for i in res:
+		print(f"- {i['fields']['summary']}")
+	
