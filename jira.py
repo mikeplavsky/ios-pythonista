@@ -5,9 +5,15 @@ from save import get_credentials
 from config import jira_host
 
 import webbrowser
-
 import json
 
+import appex
+
+def log(str):
+	if appex.is_running_extension():
+		return
+	print(str)
+	
 def request_jira(method,url,json=None):
 	
 	usr, pwd = get_credentials('jira')
@@ -17,9 +23,9 @@ def request_jira(method,url,json=None):
 		auth=HTTPBasicAuth(usr,pwd),
 		json=json)
 		
-	print(f'{method.__name__} {url} ...')
+	log(f'{method.__name__} {url} ...')
 	res.raise_for_status()
-	print('done.')
+	log('done.')
 	
 	return res.json()
 
@@ -63,8 +69,8 @@ def create_issue(
 	res = request_jira(r.post, url, issue)
 	key = res['key']
 	
-	webbrowser.get('safari').open(
-		f'https://{jira_host}/browse/{key}')
+	return f'https://{jira_host}/browse/{key}'
+	
 	
 		
 	
