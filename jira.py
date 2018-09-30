@@ -4,18 +4,25 @@ from requests.auth import HTTPBasicAuth
 from save import get_credentials
 from config import jira_host
 
-def get_jira(url):
+import json
+
+def request_jira(method,url,json=None):
 	
 	usr, pwd = get_credentials('jira')
 	
-	res = r.get(url, 
-		auth=HTTPBasicAuth(usr,pwd))
+	res = method(
+		url, 
+		auth=HTTPBasicAuth(usr,pwd),
+		json=json)
 		
-	print(f'getting {url} ...')
+	print(f'{method.__name__} {url} ...')
 	res.raise_for_status()
 	print('done.')
-		
+	
 	return res.json()
+
+def get_jira(url):
+	return request_jira(r.get,url)
 
 def get_curr_sprint(board_id):
 	
@@ -35,4 +42,20 @@ def enum_stories(board_id):
 	res = get_curr_stories(board_id)['issues']
 	for i,v in enumerate(res):
 		print(f"{i+1}. {v['fields']['summary']}")
+		
+
+def create_issue(project):
+	
+	issue = dict(
+		fields=dict(
+			project=dict(key=f'{project}'),
+			summary='test',
+			description='',
+			issuetype=dict(name='Story')))
+			
+	print(json.dumps(issue))
+	
+	url = f'https://{jira_host}/rest/api/latest/issue/'
+	return request_jira(r.post, url, issue)
+		
 	
