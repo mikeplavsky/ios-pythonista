@@ -4,6 +4,8 @@ from requests.auth import HTTPBasicAuth
 from save import get_credentials
 from config import jira_host
 
+import webbrowser
+
 import json
 
 def request_jira(method,url,json=None):
@@ -44,18 +46,25 @@ def enum_stories(board_id):
 		print(f"{i+1}. {v['fields']['summary']}")
 		
 
-def create_issue(project):
+def create_issue(
+	project,
+	summary,
+	description=''):
 	
 	issue = dict(
 		fields=dict(
 			project=dict(key=f'{project}'),
-			summary='test',
-			description='',
+			summary=f'{summary}',
+			description=f'{description}',
 			issuetype=dict(name='Story')))
-			
-	print(json.dumps(issue))
 	
 	url = f'https://{jira_host}/rest/api/latest/issue/'
-	return request_jira(r.post, url, issue)
+	
+	res = request_jira(r.post, url, issue)
+	key = res['key']
+	
+	webbrowser.get('safari').open(
+		f'https://{jira_host}/browse/{key}')
+	
 		
 	
