@@ -6,6 +6,7 @@ from config import jira_host
 
 import webbrowser
 import json
+import clipboard
 
 import appex
 
@@ -47,9 +48,16 @@ def get_curr_stories(board_id):
 	return get_jira(url)
 	
 def enum_stories(board_id):
-	res = get_curr_stories(board_id)['issues']
-	for i,v in enumerate(res):
-		print(f"{i+1}. {v['fields']['summary']}")
+	
+	issues = get_curr_stories(board_id)['issues']
+
+	all = [f"{i+1}. {v['fields']['summary']}" for i,v in enumerate(issues)]
+	
+	res = '\n'.join(all)
+	print(res)
+	
+	clipboard.set(res)
+	
 		
 def delete_issue(key):
 	
