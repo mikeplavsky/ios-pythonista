@@ -27,10 +27,10 @@ def request_jira(method,url,json=None):
 	res.raise_for_status()
 	log('done.')
 	
-	return res.json()
+	return res
 
 def get_jira(url):
-	return request_jira(r.get,url)
+	return request_jira(r.get,url).json()
 
 def get_curr_sprint(board_id):
 	
@@ -51,6 +51,18 @@ def enum_stories(board_id):
 	for i,v in enumerate(res):
 		print(f"{i+1}. {v['fields']['summary']}")
 		
+def delete_issue(key):
+	
+	url = f'https://{jira_host}/rest/api/latest/issue/{key}'
+	
+	return request_jira(r.delete, url)	
+	
+def get_issue(key):
+	
+	url = f'https://{jira_host}/rest/api/latest/issue/{key}'
+
+	res = request_jira(r.get, url).json()
+	return res['fields']['summary']
 
 def create_issue(
 	project,
@@ -66,7 +78,8 @@ def create_issue(
 	
 	url = f'https://{jira_host}/rest/api/latest/issue/'
 	
-	res = request_jira(r.post, url, issue)
+	res = request_jira(
+		r.post, url, issue).json()
 	key = res['key']
 	
 	return f'https://{jira_host}/browse/{key}'
