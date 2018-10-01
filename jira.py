@@ -62,7 +62,10 @@ def get_issue(key):
 	url = f'https://{jira_host}/rest/api/latest/issue/{key}'
 
 	res = request_jira(r.get, url).json()
-	return res['fields']['summary']
+	fs = res['fields']
+	
+	print(
+		f"\n{fs['summary']}\n\n{fs['description']}")
 
 def create_issue(
 	project,
