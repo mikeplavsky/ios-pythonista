@@ -60,12 +60,19 @@ def enum_stories(board_id):
 	
 	clipboard.set(res)
 	
-		
+	
+def get_versions(project):
+	
+	url = f'https://{jira_host}/rest/api/latest/project/{project}/version'
+
+	res = request_jira(r.get, url).json()
+	[print(v['name']) for v in res['values']]
+	
 def delete_issue(key):
 	
 	url = f'https://{jira_host}/rest/api/latest/issue/{key}'
 	
-	return request_jira(r.delete, url)	
+	return request_jira(r.delete, url)
 	
 def get_issue(key):
 	
@@ -76,6 +83,8 @@ def get_issue(key):
 	
 	print(
 		f"\n{fs['summary']}\n\n{fs['description']}")
+		
+	return res
 
 def create_issue(
 	project,
