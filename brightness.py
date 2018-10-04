@@ -22,7 +22,7 @@ class Updater(ui.View):
 			lambda x:x,v)
 
 
-def set_brightness(x,v):
+def set_brightness_label(x,v):
 	
 	b = v['brightness']
 	b.text = str(
@@ -40,7 +40,7 @@ def set_brightness_value(f,v):
 	b = f(b)
 	
 	scr.setBrightness(b)
-	set_brightness(b,v)
+	set_brightness_label(b,v)
 	
 
 def slider(sender):
