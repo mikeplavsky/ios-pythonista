@@ -49,7 +49,7 @@
         "attributes" : {
           "action" : "max",
           "frame" : "{{80, 104}, {80, 32}}",
-          "title" : "10",
+          "title" : "15",
           "uuid" : "7490287A-EF85-48FD-8AAA-627551E3110D",
           "class" : "Button",
           "font_bold" : false,
@@ -57,7 +57,7 @@
           "name" : "max",
           "font_size" : 15
         },
-        "selected" : false
+        "selected" : true
       },
       {
         "nodes" : [
@@ -162,10 +162,10 @@
         "frame" : "{{19, 215}, {100, 100}}",
         "class" : "View",
         "attributes" : {
-          "class" : "View",
-          "frame" : "{{112, 300}, {100, 100}}",
-          "name" : "view1",
           "custom_class" : "Updater",
+          "frame" : "{{112, 300}, {100, 100}}",
+          "class" : "View",
+          "name" : "view1",
           "uuid" : "3454C03C-4D4A-4720-B391-A32E31A1CB48"
         },
         "selected" : false
@@ -187,17 +187,17 @@
           "background_color" : "RGBA(1.000000,1.000000,1.000000,1.000000)",
           "name" : "slider"
         },
-        "selected" : true
+        "selected" : false
       }
     ],
     "frame" : "{{0, 0}, {375, 812}}",
     "class" : "View",
     "attributes" : {
-      "name" : "Brightness",
+      "border_color" : "RGBA(0.000000,0.000000,0.000000,1.000000)",
       "enabled" : true,
       "background_color" : "RGBA(1.000000,1.000000,1.000000,1.000000)",
+      "name" : "Brightness",
       "tint_color" : "RGBA(0.000000,0.478000,1.000000,1.000000)",
-      "border_color" : "RGBA(0.000000,0.000000,0.000000,1.000000)",
       "flex" : ""
     },
     "selected" : false
