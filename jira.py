@@ -52,8 +52,9 @@ def enum_stories(board_id):
 	issues = get_curr_stories(board_id)['issues']
 	
 	subtask = lambda x: x['fields']['issuetype']['subtask']
+	status = lambda x: x['fields']['status']['name']
 
-	all = [f"{i+1}. {v['fields']['summary']}" for i,v in enumerate(issues) if not subtask(v)]
+	all = [f"{i+1}. {v['key']}: {v['fields']['summary']} - {status(v)}" for i,v in enumerate(issues) if not subtask(v)]
 	
 	res = '\n'.join(all)
 	print(res)
