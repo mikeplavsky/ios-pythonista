@@ -47,14 +47,17 @@ def get_curr_stories(board_id):
 	
 	return get_jira(url)
 	
-def enum_stories(board_id):
+def enum_stories(board_id, s=''):
 	
 	issues = get_curr_stories(board_id)['issues']
 	
 	subtask = lambda x: x['fields']['issuetype']['subtask']
+	
 	status = lambda x: x['fields']['status']['name']
+	
+	in_status = lambda x: True if not s else status(x) == s
 
-	all = [f"{i+1}. {v['key']}: {v['fields']['summary']} - {status(v)}" for i,v in enumerate(issues) if not subtask(v)]
+	all = [f"{v['key']}: {v['fields']['summary']} - {status(v)}" for _,v in enumerate(issues) if not subtask(v) and in_status(v)]
 	
 	res = '\n'.join(all)
 	print(res)
