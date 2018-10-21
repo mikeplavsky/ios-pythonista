@@ -1,11 +1,18 @@
 import boto3
 import photos
 
-def rekognize_text():
+import clipboard
+t = clipboard.get()
 
+def pick_image():
+	
 	a = photos.pick_asset()
 	i = a.get_ui_image()
 	b = i.to_jpeg()
+	
+	return rekognize_text(b)
+
+def rekognize_text(b):
 	
 	k = boto3.client('rekognition', region_name='us-east-1')
 	
@@ -17,3 +24,23 @@ def rekognize_text():
 	print('done.')
 	
 	return text 
+	
+c = boto3.client('comprehend')
+
+comprehend = lambda func, key: func(Text=t, LanguageCode = 'en')
+
+def get_comprehend(func,key,t):
+	
+	res = comprehend(func, key)
+	return [e['Text'] for e in res[key]]
+	
+get_entities = lambda t: get_comprehend(
+	c.detect_entities,'Entities',t)
+		
+get_key_phrases = lambda t: get_comprehend(
+	c.detect_key_phrases,'KeyPhrases',t)
+	
+get_sentiment = lambda t: comprehend(
+	c.detect_sentiment,t)
+
+	
