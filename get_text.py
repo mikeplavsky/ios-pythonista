@@ -1,9 +1,6 @@
 import boto3
 import photos
 
-import clipboard
-t = clipboard.get()
-
 def pick_image():
 	
 	a = photos.pick_asset()
@@ -27,20 +24,29 @@ def rekognize_text(b):
 	
 c = boto3.client('comprehend')
 
-comprehend = lambda func, key: func(Text=t, LanguageCode = 'en')
+def comprehend(func): 
+	
+	import clipboard
+	copied = clipboard.get()
+	
+	t = copied[:4700]
+	
+	return func(Text=t, LanguageCode = 'en')
 
-def get_comprehend(func,key,t):
+def get_comprehend(func,key):
 	
-	res = comprehend(func, key)
-	return [e['Text'] for e in res[key]]
+	res = comprehend(func)
+	print(
+		'\n'.join(
+			[e['Text'] for e in res[key]]))
 	
-get_entities = lambda t: get_comprehend(
-	c.detect_entities,'Entities',t)
+get_entities = lambda: get_comprehend(
+	c.detect_entities,'Entities')
 		
-get_key_phrases = lambda t: get_comprehend(
-	c.detect_key_phrases,'KeyPhrases',t)
+get_key_phrases = lambda: get_comprehend(
+	c.detect_key_phrases,'KeyPhrases')
 	
-get_sentiment = lambda t: comprehend(
-	c.detect_sentiment,t)
+get_sentiment = lambda: comprehend(
+	c.detect_sentiment)['SentimentScore']
 
 	
