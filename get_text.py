@@ -29,7 +29,8 @@ def comprehend(func):
 	import clipboard
 	copied = clipboard.get()
 	
-	t = copied[:4700]
+	print(len(copied))
+	t = copied[:4500]
 	
 	return func(Text=t, LanguageCode = 'en')
 
@@ -46,7 +47,17 @@ get_entities = lambda: get_comprehend(
 get_key_phrases = lambda: get_comprehend(
 	c.detect_key_phrases,'KeyPhrases')
 	
-get_sentiment = lambda: comprehend(
-	c.detect_sentiment)['SentimentScore']
+def get_sentiment(): 
+	
+	res = comprehend(c.detect_sentiment)['SentimentScore']
+	
+	txt = [
+		f'{k}:\t{round(v*100)}%' for k,v in res. items()]
+		
+	print('\n'.join(txt))
+	
+
+
+print('AWS Comprehend & Rekognition')
 
 	
