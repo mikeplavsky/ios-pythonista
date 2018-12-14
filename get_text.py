@@ -55,11 +55,12 @@ def get_sentiment():
 	res = comprehend(c.detect_sentiment)['SentimentScore']
 	
 	txt = [
-		f'{k}:\t{round(v*100)}%' for k,v in res. items()]
+		f'{k} {round(v*100)}%' for k,v in res. items()]
 		
-	print('\n'.join(txt))
+	r = ' '.join(txt)
+	clipboard.set(r)
 	
-
+	print(r)
 
 print('AWS Comprehend & Rekognition')
 
