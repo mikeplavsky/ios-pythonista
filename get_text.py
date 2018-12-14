@@ -1,5 +1,6 @@
 import boto3
 import photos
+import clipboard
 
 def pick_image():
 	
@@ -37,9 +38,11 @@ def comprehend(func):
 def get_comprehend(func,key):
 	
 	res = comprehend(func)
-	print(
-		'\n'.join(
-			[e['Text'] for e in res[key]]))
+	txt ='\n'.join(
+		[e['Text'] for e in res[key]])
+			
+	print(txt)
+	clipboard.set(txt)
 	
 get_entities = lambda: get_comprehend(
 	c.detect_entities,'Entities')
