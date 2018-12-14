@@ -57,9 +57,9 @@ def enum_stories(board_id, s=''):
 	
 	in_status = lambda x: True if not s else status(x) == s
 
-	all = [f"{v['key']}: {v['fields']['summary']} - {status(v)}" for _,v in enumerate(issues) if not subtask(v) and in_status(v)]
+	all = [f"{v['fields']['summary']}" for _,v in enumerate(issues) if not subtask(v) and in_status(v)]
 	
-	res = '\n'.join(all)
+	res = '\n\n'.join(all)
 	print(res)
 	
 	clipboard.set(res)
