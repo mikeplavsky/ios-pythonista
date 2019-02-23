@@ -2,16 +2,20 @@ import clipboard
 import console
 import sys
 import webbrowser
+import json
 
 from jira import enum_stories
 
 def main():
 	
-	board = sys.argv[1]
+	project = json.loads(sys.argv[1])
 	console.clear()
 	
-	enum_stories(board)
-	webbrowser.open_new('shortcuts://')
+	print(project)
+	
+	enum_stories(
+		project['project'],
+		project['status'])
 
 if __name__ == '__main__':
 	main()
