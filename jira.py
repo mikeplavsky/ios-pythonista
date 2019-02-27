@@ -36,13 +36,11 @@ def get_jira(url):
 def get_curr_sprint(board_id):
 	
 	url = f'https://{jira_host}/rest/agile/latest/board/{board_id}/sprint?state=active'
-	
 	return get_jira(url)['values'][0]
 	
 def get_curr_stories(board_id):
 	
 	sprint = get_curr_sprint(board_id)['id']
-	
 	url = f'https://{jira_host}/rest/agile/latest/board/{board_id}/sprint/{sprint}/issue'
 	
 	return get_jira(url)
@@ -52,9 +50,7 @@ def enum_stories(board_id, s=''):
 	issues = get_curr_stories(board_id)['issues']
 	
 	subtask = lambda x: x['fields']['issuetype']['subtask']
-	
 	status = lambda x: x['fields']['status']['name']
-	
 	in_status = lambda x: True if not s else status(x) == s
 
 	all = [f"{v['fields']['summary']}" for _,v in enumerate(issues) if not subtask(v) and in_status(v)]
@@ -75,7 +71,6 @@ def get_versions(project):
 def delete_issue(key):
 	
 	url = f'https://{jira_host}/rest/api/latest/issue/{key}'
-	
 	return request_jira(r.delete, url)
 	
 def get_issue(key):
