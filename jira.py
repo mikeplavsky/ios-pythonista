@@ -53,7 +53,7 @@ def enum_stories(board_id, s=''):
     status = lambda x: x['fields']['status']['name']
     in_status = lambda x: True if not s else status(x) == s
 
-    all = [f"{v['fields']['summary']}\nhttps://{jira_host}/browse/{v['key']}" for _,v in enumerate(issues) if not subtask(v) and in_status(v)]
+    all = [f"{v['fields']['summary']}\nhttps://{jira_host}/browse/{v['key']}\n{status(v)}" for _,v in enumerate(issues) if not subtask(v) and in_status(v)]
     
     res = '\n\n'.join(all)
     print(res)
