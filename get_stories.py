@@ -6,6 +6,10 @@ import json
 
 from jira import enum_stories
 
+import jira
+from save import get_credentials
+jira.get_credentials = get_credentials
+
 def main():
     
     project = json.loads(sys.argv[1])
@@ -13,10 +17,11 @@ def main():
     
     print(project)
     
-    enum_stories(
+    res = enum_stories(
         project['project'],
         project['status'])
-    
+
+    clipboard.set(res)
     webbrowser.open_new('shortcuts://run-shortcut?name=CreateANote')
 
 if __name__ == '__main__':

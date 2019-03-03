@@ -1,18 +1,12 @@
 import requests as r
 from requests.auth import HTTPBasicAuth
 
-from save import get_credentials
 from config import jira_host
-
-import webbrowser
 import json
-import clipboard
 
-import appex
+get_credentials = None
 
 def log(str):
-    if appex.is_running_extension():
-        return
     print(str)
     
 def request_jira(method,url,json=None):
@@ -60,9 +54,8 @@ def enum_stories(board_id, s=''):
     
     res = '\n\n'.join(all)
     print(res)
-    
-    clipboard.set(res)
-    
+
+    return res
     
 def get_versions(project):
     
