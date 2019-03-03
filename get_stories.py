@@ -17,9 +17,11 @@ def main():
     
     print(project)
     
-    res = enum_stories(
+    all = enum_stories(
         project['project'],
         project['status'])
+
+    res = '\n\n'.join(all)
 
     clipboard.set(res)
     webbrowser.open_new('shortcuts://run-shortcut?name=CreateANote')

@@ -52,10 +52,7 @@ def enum_stories(board_id, s=''):
     fmt = lambda v: f"{v['fields']['summary']}\nhttps://{jira_host}/browse/{v['key']}\n{status(v)}" 
     all = [fmt(v) for v in res if not subtask(v) and in_status(v)]
     
-    res = '\n\n'.join(all)
-    print(res)
-
-    return res
+    return all
     
 def get_versions(project):
     
