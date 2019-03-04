@@ -53,6 +53,23 @@ def enum_stories(board_id, s=''):
     all = [fmt(v) for v in res if not subtask(v) and in_status(v)]
     
     return all
+
+def search_for_stories(project, text):
+
+    url = f'https://{jira_host}/rest/api/latest/search?'
+    query = dict(
+        jql=f"project={project} AND (summary ~ '{text}' OR description ~ '{text}') ORDER BY status",
+        fields=["key","summary","status"])
+
+    res = request_jira(
+        r.post, url, query).json()
+
+    status = lambda x: x['fields']['status']['name']
+
+    fmt = lambda v: f"{v['fields']['summary']}\nhttps://{jira_host}/browse/{v['key']}\n{status(v)}" 
+    all = [fmt(v) for v in res['issues']]
+    
+    return all
     
 def get_versions(project):
     
