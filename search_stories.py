@@ -19,7 +19,8 @@ def main():
     
     all = search_for_stories(
         project['project'],
-        project['query'])
+        project['query'],
+        project['all'])
 
     res = '\n\n'.join(all)
 
