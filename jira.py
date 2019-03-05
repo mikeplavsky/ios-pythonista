@@ -61,14 +61,20 @@ def search_for_stories(project, text, all=False):
 
     query = dict(
         jql=f"project={project} {not_closed} AND (summary ~ '{text}' OR description ~ '{text}') ORDER BY status",
-        fields=["key","summary","status"])
+        fields=["key","summary","status","fixVersions"])
 
     res = request_jira(
         r.post, url, query).json()
 
     status = lambda x: x['fields']['status']['name']
+    def versions(v):
+        vs = v['fields']['fixVersions']
+        if vs:
+            return ','.join([x['name'] for x in vs])
+        else:
+            return ''
 
-    fmt = lambda v: f"{v['fields']['summary']}\nhttps://{jira_host}/browse/{v['key']}\n{status(v)}" 
+    fmt = lambda v: f"{v['fields']['summary']}\nhttps://{jira_host}/browse/{v['key']}\n{status(v)}\n{versions(v)}" 
     all = [fmt(v) for v in res['issues']]
     
     return all

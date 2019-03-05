@@ -16,3 +16,7 @@ def test_jira():
 def test_get_versions():
     res = jira.get_versions("RMAZ")
     assert len(res) > 1
+
+def test_search():
+    res = jira.search_for_stories("RMADFE","driver")
+    assert len(res) > 1
