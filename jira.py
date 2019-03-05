@@ -47,9 +47,16 @@ def enum_stories(board_id, s=''):
     status = lambda x: x['fields']['status']['name']
     in_status = lambda x: True if not s else status(x) == s
 
+    def versions(v):
+        vs = v['fields']['fixVersions']
+        if vs:
+            return ','.join([x['name'] for x in vs])
+        else:
+            return ''
+
     res = sorted(issues, key=status)
 
-    fmt = lambda v: f"{v['fields']['summary']}\nhttps://{jira_host}/browse/{v['key']}\n{status(v)}" 
+    fmt = lambda v: f"{v['fields']['summary']}\nhttps://{jira_host}/browse/{v['key']}\n{status(v)}\n{versions(v)}" 
     all = [fmt(v) for v in res if not subtask(v) and in_status(v)]
     
     return all
