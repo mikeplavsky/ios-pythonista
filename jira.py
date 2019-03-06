@@ -73,7 +73,7 @@ def enum_stories(board_id, s=''):
 def search_for_stories(project, text, all=False):
 
     url = f'https://{jira_host}/rest/api/latest/search?'
-    not_closed = "" if all else "AND status != Closed"
+    not_closed = "" if all else "AND status != Closed AND status != Deployed"
 
     query = dict(
         jql=f"project={project} {not_closed} AND (summary ~ '{text}' OR description ~ '{text}') ORDER BY status",
