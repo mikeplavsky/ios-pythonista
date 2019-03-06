@@ -39,27 +39,36 @@ def get_curr_stories(board_id):
     
     return get_jira(url)
     
+status = lambda x: x['fields']['status']['name']
+
+def story_points(v):
+    s = v['fields']['customfield_10303']
+    return f"{int(s)} points" if s else 'not estimated'
+
+def versions(v):
+    vs = v['fields']['fixVersions']
+    if vs:
+        return ','.join([x['name'] for x in vs])
+    else:
+        return 'no releases'
+
+def fmt (v): 
+    return '\n'.join([
+        f"{v['fields']['summary']}",
+        f"https://{jira_host}/browse/{v['key']}",
+        f"{status(v)}",
+        f"{versions(v)}",
+        f"{story_points(v)}"]) 
+
 def enum_stories(board_id, s=''):
     
     issues = get_curr_stories(board_id)['issues']
     
     subtask = lambda x: x['fields']['issuetype']['subtask']
-    status = lambda x: x['fields']['status']['name']
     in_status = lambda x: True if not s else status(x) == s
 
-    def versions(v):
-        vs = v['fields']['fixVersions']
-        if vs:
-            return ','.join([x['name'] for x in vs])
-        else:
-            return ''
-
     res = sorted(issues, key=status)
-
-    fmt = lambda v: f"{v['fields']['summary']}\nhttps://{jira_host}/browse/{v['key']}\n{status(v)}\n{versions(v)}" 
-    all = [fmt(v) for v in res if not subtask(v) and in_status(v)]
-    
-    return all
+    return [fmt(v) for v in res if not subtask(v) and in_status(v)]
 
 def search_for_stories(project, text, all=False):
 
@@ -68,23 +77,17 @@ def search_for_stories(project, text, all=False):
 
     query = dict(
         jql=f"project={project} {not_closed} AND (summary ~ '{text}' OR description ~ '{text}') ORDER BY status",
-        fields=["key","summary","status","fixVersions"])
+        fields=[
+            "key",
+            "summary",
+            "status",
+            "fixVersions",
+            "customfield_10303"])
 
     res = request_jira(
         r.post, url, query).json()
 
-    status = lambda x: x['fields']['status']['name']
-    def versions(v):
-        vs = v['fields']['fixVersions']
-        if vs:
-            return ','.join([x['name'] for x in vs])
-        else:
-            return ''
-
-    fmt = lambda v: f"{v['fields']['summary']}\nhttps://{jira_host}/browse/{v['key']}\n{status(v)}\n{versions(v)}" 
-    all = [fmt(v) for v in res['issues']]
-    
-    return all
+    return [fmt(v) for v in res['issues']]
     
 def get_versions(project):
     
