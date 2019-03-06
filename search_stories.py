@@ -22,6 +22,7 @@ def main():
         project['query'],
         project['all'])
 
+    all.insert(0,f"Q: {project['query']}")
     res = '\n\n'.join(all)
 
     clipboard.set(res)
