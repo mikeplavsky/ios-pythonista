@@ -15,12 +15,8 @@ def main():
     project = json.loads(sys.argv[1])
     console.clear()
     
-    print(project)
-    
     all = enum_stories(
-        project['project'],
-        project['status'])
-
+        project['project'])
     res = '\n\n'.join(all)
 
     clipboard.set(res)

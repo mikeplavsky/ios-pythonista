@@ -66,23 +66,31 @@ def fmt (v):
         f"{versions(v)}",
         f"{story_points(v)}"]) 
 
-def enum_stories(board_id, s=''):
+def enum_stories(project):
     
-    issues = get_curr_stories(board_id)['issues']
-    
-    subtask = lambda x: x['fields']['issuetype']['subtask']
-    in_status = lambda x: True if not s else status(x) == s
+    url = f'https://{jira_host}/rest/api/latest/search?'
 
-    res = sorted(issues, key=status)
-    return [fmt(v) for v in res if not subtask(v) and in_status(v)]
+    query = dict(
+        jql=f"project={project} AND sprint in openSprints() AND type not in subTaskIssueTypes() ORDER BY resolution DESC",
+        fields=[
+            "key",
+            "summary",
+            "status",
+            "fixVersions",
+            "customfield_10303"])
+
+    res = request_jira(
+        r.post, url, query).json()
+
+    return [fmt(v) for v in res['issues']]
 
 def search_for_stories(project, text, all=False):
 
     url = f'https://{jira_host}/rest/api/latest/search?'
-    not_closed = "" if all else "AND status != Closed AND status != Deployed"
+    not_closed = "" if all else "AND resolution = Unresolved"
 
     query = dict(
-        jql=f"project={project} {not_closed} AND (summary ~ '{text}' OR description ~ '{text}') ORDER BY status",
+        jql=f"project={project} {not_closed} AND (summary ~ '{text}' OR description ~ '{text}') ORDER BY status DESC",
         fields=[
             "key",
             "summary",

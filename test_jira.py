@@ -10,7 +10,7 @@ jira.get_credentials = lambda _: (
         jira_pwd)
 
 def test_jira():
-    res = jira.enum_stories(2003)
+    res = jira.enum_stories("QMMP")
     assert len(res) > 1
 
 def test_get_versions():
