@@ -43,7 +43,13 @@ status = lambda x: x['fields']['status']['name']
 
 def story_points(v):
     s = v['fields']['customfield_10303']
-    return f"{int(s)} points" if s else 'not estimated'
+    
+    if s:
+        n = int(s)
+        pts = "point" if n == 1 else "points"
+        return f"{n} {pts}" if s else 'not estimated'
+
+    return "" 
 
 def versions(v):
     vs = v['fields']['fixVersions']
