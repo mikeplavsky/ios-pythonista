@@ -1,6 +1,7 @@
 import os
 import jira
 from config import jira_user
+import pytest
 
 cmd = f"security find-generic-password -a {jira_user} -s jira -w"
 jira_pwd = os.popen(cmd).read().strip()
@@ -23,6 +24,14 @@ def test_sprint_stories():
 def test_get_versions():
     res = jira.get_versions("RMAZ")
     assert len(res) > 1
+
+@pytest.mark.parametrize("all, status",[
+    (False, "In Progress"),
+    (True, "Deployed")])
+def test_search_stories(all, status):
+    res = jira.search_stories("QMMP", "UI", all)    
+    i = res["issues"][0]
+    assert i["fields"]["status"]["name"] == status 
 
 def test_search():
     res = jira.search_for_stories("RMADFE","driver")

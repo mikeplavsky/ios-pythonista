@@ -27,18 +27,6 @@ def request_jira(method,url,json=None):
 def get_jira(url):
     return request_jira(r.get,url).json()
 
-def get_curr_sprint(board_id):
-    
-    url = f'https://{jira_host}/rest/agile/latest/board/{board_id}/sprint?state=active'
-    return get_jira(url)['values'][0]
-    
-def get_curr_stories(board_id):
-    
-    sprint = get_curr_sprint(board_id)['id']
-    url = f'https://{jira_host}/rest/agile/latest/board/{board_id}/sprint/{sprint}/issue'
-    
-    return get_jira(url)
-    
 status = lambda x: x['fields']['status']['name']
 
 def story_points(v):
@@ -94,7 +82,7 @@ def enum_stories(project):
     res = sprint_stories(project) 
     return [fmt(v) for v in res['issues']]
 
-def search_stories(project, text):
+def search_stories(project, text, all):
 
     not_closed = "" if all else "AND resolution = Unresolved"
 
@@ -106,7 +94,7 @@ def search_stories(project, text):
 
 def search_for_stories(project, text, all=False):
 
-    res = search_stories(project, text)
+    res = search_stories(project, text, all)
     return [fmt(v) for v in res['issues']]
     
 def get_versions(project):
