@@ -9,10 +9,17 @@ jira.get_credentials = lambda _: (
         jira_user, 
         jira_pwd)
 
-def test_jira():
-    res = jira.enum_stories("QMMP")
-    assert len(res) > 1
+def test_sprint_stories():
 
+    res = jira.sprint_stories("QMMP")
+    assert len(res["issues"]) > 1
+
+    i = res["issues"][0]
+    assert i["key"].startswith("QMMP")
+
+    assert set(i["fields"].keys()) == set(
+            ['summary', 'customfield_10303', 'fixVersions', 'status'])
+        
 def test_get_versions():
     res = jira.get_versions("RMAZ")
     assert len(res) > 1

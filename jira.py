@@ -66,12 +66,12 @@ def fmt (v):
         f"{versions(v)}",
         f"{story_points(v)}"]) 
 
-def enum_stories(project):
-    
+def query(q):
+
     url = f'https://{jira_host}/rest/api/latest/search?'
 
     query = dict(
-        jql=f"project={project} AND sprint in openSprints() AND type not in subTaskIssueTypes() ORDER BY resolution DESC",
+        jql=q,
         fields=[
             "key",
             "summary",
@@ -79,28 +79,34 @@ def enum_stories(project):
             "fixVersions",
             "customfield_10303"])
 
-    res = request_jira(
-        r.post, url, query).json()
+    return request_jira(r.post, url, query).json()
 
+def sprint_stories(project):
+    q = (
+        f"project={project} AND "
+        "sprint in openSprints() AND "
+        "type not in subTaskIssueTypes() ORDER BY "
+        "resolution DESC" )
+    return query(q)
+
+def enum_stories(project):
+    
+    res = sprint_stories(project) 
     return [fmt(v) for v in res['issues']]
+
+def search_stories(project, text):
+
+    not_closed = "" if all else "AND resolution = Unresolved"
+
+    jql=(
+        f"project={project} {not_closed} AND "
+        f"(summary ~ '{text}' OR description ~ '{text}') ORDER BY "
+        "status DESC")
+    return query(jql)
 
 def search_for_stories(project, text, all=False):
 
-    url = f'https://{jira_host}/rest/api/latest/search?'
-    not_closed = "" if all else "AND resolution = Unresolved"
-
-    query = dict(
-        jql=f"project={project} {not_closed} AND (summary ~ '{text}' OR description ~ '{text}') ORDER BY status DESC",
-        fields=[
-            "key",
-            "summary",
-            "status",
-            "fixVersions",
-            "customfield_10303"])
-
-    res = request_jira(
-        r.post, url, query).json()
-
+    res = search_stories(project, text)
     return [fmt(v) for v in res['issues']]
     
 def get_versions(project):
