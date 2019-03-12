@@ -54,12 +54,13 @@ def fmt (v):
         f"{versions(v)}",
         f"{story_points(v)}"]) 
 
-def query(q):
+def query(q, max_results=1000, error_if_more=False):
 
     url = f'https://{jira_host}/rest/api/latest/search?'
 
     query = dict(
         jql=q,
+        maxResults=max_results,
         fields=[
             "key",
             "summary",
@@ -67,7 +68,11 @@ def query(q):
             "fixVersions",
             "customfield_10303"])
 
-    return request_jira(r.post, url, query).json()
+    res = request_jira(r.post, url, query).json()
+    if error_if_more:
+        assert res['maxResults'] < max_results
+    
+    return res
 
 def sprint_stories(project):
     q = (
@@ -90,7 +95,7 @@ def search_stories(project, text, all):
         f"project={project} {not_closed} AND "
         f"(summary ~ '{text}' OR description ~ '{text}') ORDER BY "
         "status DESC")
-    return query(jql)
+    return query(jql, max_results=20)
 
 def search_for_stories(project, text, all=False):
 

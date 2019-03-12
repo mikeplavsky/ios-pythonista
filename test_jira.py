@@ -36,3 +36,7 @@ def test_search_stories(all, status):
 def test_search():
     res = jira.search_for_stories("RMADFE","driver")
     assert len(res) > 1
+
+def test_query():
+    res = jira.query("project = RMADFE AND fixVersion = latestReleasedVersion()")
+    assert res['total'] > 100
