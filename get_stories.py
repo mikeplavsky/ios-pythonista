@@ -4,11 +4,8 @@ import sys
 import webbrowser
 import json
 
-from jira import enum_stories
-
-import jira
-from save import get_credentials
-jira.get_credentials = get_credentials
+from jira import enum_stories, set_credentials
+set_credentials()
 
 def main():
     

@@ -6,6 +6,13 @@ import json
 
 get_credentials = None
 
+def set_credentials():
+
+    import jira 
+
+    from save import get_credentials
+    jira.get_credentials = get_credentials
+
 def log(str):
     print(str)
     
