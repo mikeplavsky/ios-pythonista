@@ -34,6 +34,11 @@ def test_get_versions():
     assert len(res) > 1
     assert len(res[0]['name']) > 1
 
+def test_get_versions_names():
+    res = jira.get_versions_names("RMADFE")
+    assert len(res) > 1
+    assert "10.1" in set(res)
+
 @pytest.mark.parametrize("all, status",[
     (False, "In Progress"),
     (True, "Deployed")])

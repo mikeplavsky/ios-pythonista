@@ -142,6 +142,10 @@ def get_versions(project):
     res = request_jira(r.get, url).json()
     return [v for v in res['values'] if not v["released"]]
     
+def get_versions_names(project):
+    res = get_versions(project)
+    return [r['name'] for r in res]
+
 def delete_issue(key):
     
     url = f'https://{jira_host}/rest/api/latest/issue/{key}'
