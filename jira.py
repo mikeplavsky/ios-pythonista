@@ -13,9 +13,6 @@ def set_credentials():
     from save import get_credentials
     jira.get_credentials = get_credentials
 
-def log(str):
-    print(str)
-    
 def request_jira(method,url,json=None):
     
     usr, pwd = get_credentials('jira')
@@ -25,9 +22,9 @@ def request_jira(method,url,json=None):
         auth=HTTPBasicAuth(usr,pwd),
         json=json)
         
-    log(f'{method.__name__} {url} ...')
+    print(f'{method.__name__} {url} ...')
     res.raise_for_status()
-    log('done.')
+    print('done.')
     
     return res
 
