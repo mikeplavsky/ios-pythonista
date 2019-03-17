@@ -36,15 +36,29 @@ def get_jira(url):
 
 status = lambda x: x['fields']['status']['name']
 
+def sprints(v):
+
+    s = v['fields']['customfield_12004']
+    if not s: 
+        return 'no sprints'
+
+    def search(i): 
+        import re
+        r = re.search(r"Sprint ([\d]*)", i)
+        return r.groups()[0]
+
+    return ",".join(
+        [search(i) for i in s]) 
+
 def story_points(v):
     s = v['fields']['customfield_10303']
     
     if s:
         n = int(s)
         pts = "point" if n == 1 else "points"
-        return f"{n} {pts}" if s else 'not estimated'
+        return f"{n} {pts}" 
 
-    return "" 
+    return 'not estimated'
 
 def versions(v):
     vs = v['fields']['fixVersions']
@@ -59,7 +73,10 @@ def fmt (v):
         f"https://{jira_host}/browse/{v['key']}",
         f"{status(v)}",
         f"{versions(v)}",
+        f"{sprints(v)}",
         f"{story_points(v)}"]) 
+
+fmt_issues = lambda x: [fmt(v) for v in x['issues']]
 
 def query(q, max_results=1000, error_if_more=False):
 
@@ -72,6 +89,7 @@ def query(q, max_results=1000, error_if_more=False):
             "key",
             "summary",
             "status",
+            "customfield_12004", # must be taken from issue/editmeta
             "fixVersions",
             "customfield_10303"])
 
@@ -93,7 +111,7 @@ def sprint_stories(project):
 def enum_stories(data):
     
     res = sprint_stories(data['project']) 
-    return [fmt(v) for v in res['issues']]
+    return fmt_issues(res) 
 
 def search_stories(project, text, all):
 
@@ -112,7 +130,7 @@ def search_for_stories(data):
         data['text'], 
         data['all'])
 
-    all = [fmt(v) for v in res['issues']]
+    all = fmt_issues(res) 
     all.insert(0,f"Q: {data['text']}")
 
     return all

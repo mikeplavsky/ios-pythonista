@@ -23,9 +23,11 @@ def test_sprint_stories():
 
     i = res["issues"][0]
     assert i["key"].startswith("QMMP")
+    assert i["fields"]["customfield_12004"][0].find("QMMP Sprint") != -1
 
     assert set(i["fields"].keys()) == set(
-            ['summary', 'customfield_10303', 'fixVersions', 'status'])
+            ['summary', 'customfield_12004',
+            'customfield_10303', 'fixVersions', 'status'])
         
 def test_get_versions():
     res = jira.get_versions("RMAZ")
