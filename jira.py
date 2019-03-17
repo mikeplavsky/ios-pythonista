@@ -82,6 +82,7 @@ def query(q, max_results=1000, error_if_more=False):
     return res
 
 def sprint_stories(project):
+
     q = (
         f"project={project} AND "
         "sprint in openSprints() AND "
@@ -89,9 +90,9 @@ def sprint_stories(project):
         "resolution DESC" )
     return query(q)
 
-def enum_stories(project):
+def enum_stories(data):
     
-    res = sprint_stories(project) 
+    res = sprint_stories(data['project']) 
     return [fmt(v) for v in res['issues']]
 
 def search_stories(project, text, all):
