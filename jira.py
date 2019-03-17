@@ -143,10 +143,6 @@ def get_versions_names(data):
     res = get_versions(data['project'])
     return [r['name'] for r in res]
 
-def get_versions_names_encoded(x): 
-    res = {x:x for x in get_versions_names(x)} 
-    return [json.dumps(res)]
-
 def delete_issue(key):
     
     url = f'https://{jira_host}/rest/api/latest/issue/{key}'
