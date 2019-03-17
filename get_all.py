@@ -13,12 +13,15 @@ def main():
     console.clear()
 
     func = getattr(jira, data['func'])
+    shortcut = data.get('shortcut')
+    
+    url = f'shortcuts://run-shortcut?name={shortcut}' if shortcut else 'shortcuts://'
     
     all = func(data)
     res = '\n\n'.join(all)
 
     clipboard.set(res)
-    webbrowser.open_new('shortcuts://run-shortcut?name=CreateANote')
+    webbrowser.open_new(url)
 
 if __name__ == '__main__':
     main()

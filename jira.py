@@ -139,9 +139,13 @@ def get_versions(project):
     res = request_jira(r.get, url).json()
     return [v for v in res['values'] if not v["released"]]
     
-def get_versions_names(project):
-    res = get_versions(project)
+def get_versions_names(data):
+    res = get_versions(data['project'])
     return [r['name'] for r in res]
+
+def get_versions_names_encoded(x): 
+    res = {x:x for x in get_versions_names(x)} 
+    return [json.dumps(res)]
 
 def delete_issue(key):
     
