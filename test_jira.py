@@ -34,8 +34,13 @@ def test_search_stories(all, status):
     assert i["fields"]["status"]["name"] == status 
 
 def test_search():
-    res = jira.search_for_stories("RMADFE","driver")
-    assert len(res) > 1
+    res = jira.search_for_stories(
+        dict(
+            project="RMADFE",
+            text="driver",
+            all=False))
+    assert len(res) > 2
+    assert res[0] == "Q: driver"
 
 def test_query():
     res = jira.query("project = RMADFE AND fixVersion = latestReleasedVersion()")

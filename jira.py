@@ -104,10 +104,17 @@ def search_stories(project, text, all):
         "status DESC")
     return query(jql, max_results=20)
 
-def search_for_stories(project, text, all=False):
+def search_for_stories(data):
 
-    res = search_stories(project, text, all)
-    return [fmt(v) for v in res['issues']]
+    res = search_stories(
+        data['project'], 
+        data['text'], 
+        data['all'])
+
+    all = [fmt(v) for v in res['issues']]
+    all.insert(0,f"Q: {data['text']}")
+
+    return all
     
 def get_versions(project):
     
