@@ -32,6 +32,7 @@ def test_sprint_stories():
 def test_get_versions():
     res = jira.get_versions("RMAZ")
     assert len(res) > 1
+    assert len(res[0]['name']) > 1
 
 @pytest.mark.parametrize("all, status",[
     (False, "In Progress"),
