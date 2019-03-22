@@ -59,3 +59,13 @@ def test_search():
 def test_query():
     res = jira.query("project = RMADFE AND fixVersion = latestReleasedVersion()")
     assert res['total'] > 100
+
+def test_create_issues():
+
+    key,url = jira.create_issue('QMMP',"test")
+
+    assert key != ''
+    assert url != ''
+
+    res = jira.delete_issue(key)
+    assert res.status_code == 204

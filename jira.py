@@ -178,7 +178,7 @@ def create_issue(
         r.post, url, issue).json()
     key = res['key']
     
-    return f'https://{jira_host}/browse/{key}'
+    return key, f'https://{jira_host}/browse/{key}'
     
     
         
