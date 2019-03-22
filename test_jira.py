@@ -60,12 +60,21 @@ def test_query():
     res = jira.query("project = RMADFE AND fixVersion = latestReleasedVersion()")
     assert res['total'] > 100
 
-def test_create_issues():
+def test_create_issue():
 
-    key,url = jira.create_issue('QMMP',"test")
+    data = dict(
+            project='QMMP',
+            text="test\n\ndelete me")
+
+    key,url = jira.create_issue(data) 
 
     assert key != ''
     assert url != ''
+
+    issue = jira.get_issue(key)
+
+    assert issue['fields']['summary'] == 'test'
+    assert issue['fields']['description'] == 'delete me'
 
     res = jira.delete_issue(key)
     assert res.status_code == 204

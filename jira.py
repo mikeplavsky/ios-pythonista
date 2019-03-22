@@ -160,10 +160,15 @@ def get_issue(key):
         
     return res
 
-def create_issue(
-    project,
-    summary,
-    description=''):
+def create_issue(data):
+
+    project = data['project']
+    text = data['text']
+
+    lines = text.split('\n')
+
+    summary = lines[0]
+    description = '\n'.join(lines[2:]) 
     
     issue = dict(
         fields=dict(
