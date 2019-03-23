@@ -40,12 +40,12 @@ def test_get_versions_names():
     assert "10.1" in set(res)
 
 @pytest.mark.parametrize("all, status",[
-    (False, "In Progress"),
-    (True, "Deployed")])
+    (False, set(["In Progress","Reopened"])),
+    (True, set(["Deployed"]))])
 def test_search_stories(all, status):
     res = jira.search_stories("QMMP", "UI", all)    
     i = res["issues"][0]
-    assert i["fields"]["status"]["name"] == status 
+    assert i["fields"]["status"]["name"] in status 
 
 def test_search():
     res = jira.search_for_stories(
@@ -78,3 +78,12 @@ def test_create_issue():
 
     res = jira.delete_issue(key)
     assert res.status_code == 204
+
+def test_epic():
+    res = jira.search_for_stories(
+        dict(
+            project="RMADFE",
+            text="Zero Touch",
+            all=False))
+    assert len(res) > 2
+

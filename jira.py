@@ -116,7 +116,9 @@ def search_stories(project, text, all):
 
     jql=(
         f"project={project} {not_closed} AND "
-        f"(summary ~ '{text}' OR description ~ '{text}') ORDER BY "
+        f"(summary ~ '{text}' OR "
+        f"description ~ '{text}' OR "
+        f"issue in linkedIssuesFromQuery(\"'Epic Name' ~ '{text}'\")) ORDER BY "
         "status DESC")
     return query(jql, max_results=20)
 
