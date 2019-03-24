@@ -88,7 +88,8 @@ def query(q, max_results=1000, error_if_more=False):
             "status",
             "customfield_12004", # must be taken from issue/editmeta
             "fixVersions",
-            "customfield_10303"])
+            "customfield_10303",
+            "customfield_12301"])
 
     res = request_jira(r.post, url, query).json()
     if error_if_more:
@@ -144,6 +145,15 @@ def get_versions(project):
 def get_versions_names(data):
     res = get_versions(data['project'])
     return [r['name'] for r in res]
+
+def get_epics(project,version):
+    jql = (
+        f'issue in epicsFromQuery('
+        f'"project = {project} AND '
+        f'fixVersion = \'{version}\'")'
+    )
+    res = query(jql)
+    return [x['fields']['customfield_12301'] for x in res['issues']]
 
 def delete_issue(key):
     

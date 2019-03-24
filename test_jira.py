@@ -87,3 +87,8 @@ def test_epic():
             all=False))
     assert len(res) > 2
 
+def test_get_epics():
+    res = jira.get_epics("RMADFE", "10.1")
+    assert len(res) > 5
+
+

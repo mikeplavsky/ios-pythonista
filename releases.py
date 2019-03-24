@@ -9,9 +9,9 @@ project = list_dialog(
         'RMAZ',
         'QMMP'])
         
-print('getting...')
-            
 vs = jira.get_versions_names(
     dict(project= project))
-    
-list_dialog(items=vs)
+version = list_dialog(items=vs)
+
+epics = jira.get_epics(project, version)
+list_dialog(items=epics)
