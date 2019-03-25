@@ -155,6 +155,15 @@ def get_epics(project,version):
     res = query(jql)
     return [x['fields']['customfield_12301'] for x in res['issues']]
 
+def get_epic_issues(project,version,epic):
+
+    jql =  (
+        f'issue in linkedIssuesFromQuery("\'Epic Name\' ~ \'{epic}\'") AND '
+        f'project = "{project}" AND '
+        f'fixVersion = "{version}"'
+    )
+    return query(jql)
+
 def delete_issue(key):
     
     url = f'https://{jira_host}/rest/api/latest/issue/{key}'

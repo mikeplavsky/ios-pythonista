@@ -91,4 +91,11 @@ def test_get_epics():
     res = jira.get_epics("RMADFE", "10.1")
     assert len(res) > 5
 
+@pytest.mark.parametrize("epic, len_func",[
+    ("Zero Touch", lambda x: len(x) > 1),
+    ("Zero Touch 1", lambda x: len(x) == 0)])
+def test_epic_issues(epic, len_func):
+    res = jira.get_epic_issues("RMADFE", "10.1", epic)
+    assert len_func(res['issues'])
+
 
