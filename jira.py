@@ -160,7 +160,8 @@ def get_epic_issues(project,version,epic):
     jql =  (
         f'issue in linkedIssuesFromQuery("\'Epic Name\' ~ \'{epic}\'") AND '
         f'project = "{project}" AND '
-        f'fixVersion = "{version}"'
+        f'fixVersion = "{version}" ORDER BY '
+        f'resolution DESC'
     )
     return query(jql)
 
