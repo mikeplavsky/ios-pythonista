@@ -26,7 +26,7 @@ def test_sprint_stories():
     assert i["fields"]["customfield_12004"][0].find("QMMP Sprint") != -1
 
     assert set(i["fields"].keys()) == set(
-            ['summary', 'customfield_12004',
+            ['summary', 'customfield_12004','resolution',
             'customfield_10303', 'fixVersions', 'status'])
         
 def test_get_versions():

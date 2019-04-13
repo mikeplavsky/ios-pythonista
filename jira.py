@@ -86,6 +86,7 @@ def query(q, max_results=1000, error_if_more=False):
             "key",
             "summary",
             "status",
+            "resolution",
             "customfield_12004", # must be taken from issue/editmeta
             "fixVersions",
             "customfield_10303",
