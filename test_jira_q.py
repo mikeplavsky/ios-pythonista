@@ -33,6 +33,23 @@ def test_points(points, exp):
     then = jira.story_points(given)
     assert then == exp
 
+def test_get_sprint_features():
+
+    feature = lambda ps,s: dict(
+        fields=dict(
+            customfield_10303 = f"{ps}",
+            resolution=dict(name=s) if s else None))
+
+    given = dict(issues=[
+        feature(10, 'Done'),
+        feature(2, ''),
+        feature(1, 'Unresolved'),
+        feature(7, 'Done'),
+        feature(3, '')])
+
+    res = jira.get_sprint_features(given)
+    assert res == (5,2,23,17)
+
 @pytest.mark.parametrize("versions, exp",[
     ([],"no releases"),
     ([dict(name="1"), dict(name="2")],"1,2")])
