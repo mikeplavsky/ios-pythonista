@@ -26,9 +26,13 @@ while True:
     issues = jira.get_epic_issues(project,version,epic)
     all = jira.fmt_issues(issues)
 
+    all.insert(0,
+        jira.get_features_header(issues))
+
     all.insert(
         0,
         f"{project}, {version}, {epic}")
+
     res = '\n\n'.join(all)
 
     clipboard.set(res)

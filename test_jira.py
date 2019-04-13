@@ -20,7 +20,7 @@ def test_enum_stories():
 def test_get_sprint_features():
 
     given = jira.sprint_stories("RMAZ")
-    fs, d_fs, ps, d_ps = jira.get_sprint_features(given) 
+    fs, d_fs, ps, d_ps = jira.get_features(given) 
 
     assert fs > 0 
     assert ps > 0 

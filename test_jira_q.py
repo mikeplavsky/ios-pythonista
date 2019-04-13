@@ -33,7 +33,7 @@ def test_points(points, exp):
     then = jira.story_points(given)
     assert then == exp
 
-def test_get_sprint_features():
+def test_get_features():
 
     feature = lambda ps,s: dict(
         fields=dict(
@@ -47,7 +47,7 @@ def test_get_sprint_features():
         feature(7, 'Done'),
         feature(3, '')])
 
-    res = jira.get_sprint_features(given)
+    res = jira.get_features(given)
     assert res == (5,2,23,17)
 
 @pytest.mark.parametrize("versions, exp",[

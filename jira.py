@@ -113,7 +113,7 @@ def sprint_stories(project):
         "resolution DESC" )
     return query(q)
 
-def get_sprint_features(res):
+def get_features(res):
 
     issues = res['issues']
     done = lambda x: resolution(x) == 'Done'
@@ -125,17 +125,20 @@ def get_sprint_features(res):
         sum(ps(x) for x in issues),
         sum(ps(x) for x in issues if done(x)))
 
-def enum_stories(data):
-    
-    res = sprint_stories(data['project']) 
-    issues = fmt_issues(res) 
+def get_features_header(issues):
 
-    fs, d_fs, ps, d_ps = get_sprint_features(res)
-    header = (
+    fs, d_fs, ps, d_ps = get_features(issues)
+    return (
         f"Features: {d_fs} of {fs}\n"
         f"Points: {d_ps} of {ps}")
 
-    issues.insert(0, header)
+def enum_stories(data):
+    
+    res = sprint_stories(data['project']) 
+
+    issues = fmt_issues(res) 
+    issues.insert(0, get_features_header(res))
+
     return issues
 
 def search_stories(project, text, all):
