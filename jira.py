@@ -113,7 +113,7 @@ def enum_stories(data):
 
 def search_stories(project, text, all):
 
-    not_closed = "" if all else "AND resolution = Unresolved"
+    not_closed = "" if all else "AND resolution = Unresolved AND status != Closed"
 
     jql=(
         f"project={project} {not_closed} AND "
