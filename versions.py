@@ -6,23 +6,26 @@ import clipboard
 import webbrowser
 import ui
 
+versions = dict()
+
 class EpicsDelegate(object):
     def tableview_did_select(self, tv, section, row):
         pass
 
 class VersionsDelegate(object):
+
     def tableview_did_select(self, tv, section, row):
-        if getattr(tv,'versions_page'): 
 
-            vs = jira.get_versions_names(
-                dict(project=tv.data_source.items[row]))
+        proj = tv.data_source.items[row]
+        if not versions.get(proj): 
 
-            versions_page = ui.TableView()
-            versions_page.data_source = ui.ListDataSource(vs) 
+            versions[proj] = jira.get_versions_names(
+                dict(project=proj))
 
-            tv.versions_page = versions_page
+        versions_page = ui.TableView()
+        versions_page.data_source = ui.ListDataSource(versions[proj]) 
 
-        nav.push_view(tv.versions_page)
+        nav.push_view(versions_page)
 
 projects_page = ui.TableView()
 projects_page.data_source = ui.ListDataSource( 
