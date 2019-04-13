@@ -33,6 +33,11 @@ def get_jira(url):
 
 status = lambda x: x['fields']['status']['name']
 
+def resolution(x): 
+
+    res = x['fields']['resolution']
+    return res['name'] if res else ''
+
 def sprints(v):
 
     s = v['fields']['customfield_12004']
@@ -47,8 +52,10 @@ def sprints(v):
     return ",".join(
         [search(i) for i in s]) 
 
+points = lambda v: v['fields']['customfield_10303']
+
 def story_points(v):
-    s = v['fields']['customfield_10303']
+    s = points(v) 
     
     if s:
         n = int(s)
@@ -101,16 +108,35 @@ def query(q, max_results=1000, error_if_more=False):
 def sprint_stories(project):
 
     q = (
-        f"project={project} AND "
-        "sprint in openSprints() AND "
+        f"project={project} AND " "sprint in openSprints() AND "
         "type not in subTaskIssueTypes() ORDER BY "
         "resolution DESC" )
     return query(q)
 
+def get_sprint_features(res):
+
+    issues = res['issues']
+    done = lambda x: resolution(x) == 'Done'
+    ps = lambda x: int(points(x))
+
+    return (
+        len(issues),
+        len([x for x in issues if done(x)]),
+        sum(ps(x) for x in issues),
+        sum(ps(x) for x in issues if done(x)))
+
 def enum_stories(data):
     
     res = sprint_stories(data['project']) 
-    return fmt_issues(res) 
+    issues = fmt_issues(res) 
+
+    fs, d_fs, ps, d_ps = get_sprint_features(res)
+    header = (
+        f"Features: {d_fs} of {fs}\n"
+        f"Points: {d_ps} of {ps}")
+
+    issues.insert(0, header)
+    return issues
 
 def search_stories(project, text, all):
 
