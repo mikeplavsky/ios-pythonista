@@ -109,4 +109,10 @@ def test_epic_issues(epic, len_func):
     res = jira.get_epic_issues("RMADFE", "10.1", epic)
     assert len_func(res['issues'])
 
-
+@pytest.mark.parametrize("version, count",[
+    ("9.0.1", 50),
+    ("10.0", 200),
+    ("10.1", 70)])
+def test_release_issues(version, count):
+    res = jira.get_release_issues("RMADFE", version)
+    assert len(res['issues']) > count

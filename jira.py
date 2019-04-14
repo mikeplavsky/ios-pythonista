@@ -186,6 +186,15 @@ def get_epics(project,version):
     res = query(jql)
     return [x['fields']['customfield_12301'] for x in res['issues']]
 
+def get_release_issues(project,version):
+
+    jql =  (
+        f'project = "{project}" AND '
+        f'fixVersion = "{version}" ORDER BY '
+        f'resolution DESC'
+    )
+    return query(jql)
+
 def get_epic_issues(project,version,epic):
 
     jql =  (
