@@ -9,13 +9,13 @@ import ui
 versions = dict()
 epics = dict()
 
-def create_page(name, data, delegate):
+def create_page(name, data, delegate, source = ui.ListDataSource):
 
     page = ui.TableView()
 
     page.name = name
     page.delegate = delegate
-    page.data_source = ui.ListDataSource(data) 
+    page.data_source = source(data) 
 
     return page
 
@@ -40,49 +40,106 @@ class IssuesDelegate(object):
         webbrowser.open_new(
             'shortcuts://run-shortcut?name=CreateANote')
 
-class EpicsDelegate(object):
-    def tableview_did_select(self, tv, section, row):
+@ui.in_background
+def epics_page(src, project,version):
 
-        version = tv.data_source.items[row]
-        key = (tv.project,version)
+    title = src.title
+    src.title = "..."
 
-        if not epics.get(key):
-            epics[key] = jira.get_epics(*key)
+    key = (project,version)
 
-        page = create_page(
-            "Epics", 
-            epics[key], 
-            IssuesDelegate())
+    if not epics.get(key):
+        epics[key] = jira.get_epics(*key)
 
-        page.project = key[0]
-        page.version = key[1]
+    page = create_page(
+        "Epics", 
+        epics[key], 
+        IssuesDelegate())
 
-        nav.push_view(page)
+    page.project = key[0]
+    page.version = key[1]
 
-class VersionsDelegate(object):
+    src.title = title
+    nav.push_view(page)
 
-    def tableview_did_select(self, tv, section, row):
+def create_button(cell, title, left, action):
 
-        proj = tv.data_source.items[row]
-        if not versions.get(proj): 
+    btn = ui.Button(title=title)
+    btn.center = (cell.content_view.width * left, cell.content_view.height * 0.5)
+    btn.flex = 'LRTB'
+    btn.action = action
 
-            versions[proj] = jira.get_versions_names(
-                dict(project=proj))
+    cell.content_view.add_subview(btn)
 
-        page = create_page(
-            "Releases", 
-            versions[proj],
-            EpicsDelegate()) 
+class Versions(ui.ListDataSource):
+    def tableview_cell_for_row(self, tableview, section, row):
 
-        page.project = proj
-        nav.push_view(page)
+        cell = ui.TableViewCell()
+        cell.text_label.text = self.items[row]
+
+        create_button(
+            cell, 
+            "issues", 
+            0.7, 
+            None)
+
+        create_button(
+            cell, 
+            "epics", 
+            0.9, 
+            lambda src: epics_page(
+                src,
+                tableview.project, 
+                versions[tableview.project][row]))
+
+        return cell
+
+class Releases(ui.ListDataSource):
+    def tableview_cell_for_row(self, tableview, section, row):
+
+        cell = ui.TableViewCell()
+        cell.text_label.text = self.items[row]
+
+        create_button(
+            cell, 
+            "releases", 
+            0.85, 
+            lambda src: releases_page(
+                src, 
+                tableview.data_source.items[row]))
+
+        return cell
+
+@ui.in_background
+def releases_page(src, proj):
+
+    title = src.title    
+    src.title = "..."
+
+    if not versions.get(proj): 
+
+        versions[proj] = jira.get_versions_names(
+            dict(project=proj))
+
+    page = create_page(
+        "Releases", 
+        versions[proj],
+        None,
+        Versions) 
+    
+    page.allows_selection = False
+    page.project = proj
+
+    src.title = title
+    nav.push_view(page)
 
 projects_page = create_page(
         "Products",[
         'RMADFE',
         'RMAZ',
         'QMMP'],
-        VersionsDelegate())
+        None,
+        Releases)
 
 nav = ui.NavigationView(projects_page)
 nav.present()
