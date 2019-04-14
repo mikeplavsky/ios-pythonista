@@ -37,18 +37,20 @@ def test_get_features():
 
     feature = lambda ps,s: dict(
         fields=dict(
-            customfield_10303 = f"{ps}",
+            customfield_10303 = f"{ps}" if ps else ps,
             resolution=dict(name=s) if s else None))
 
     given = dict(issues=[
         feature(10, 'Done'),
         feature(2, ''),
+        feature(None, 'Done'),
+        feature('', ''),
         feature(1, 'Unresolved'),
         feature(7, 'Done'),
         feature(3, '')])
 
     res = jira.get_features(given)
-    assert res == (5,2,23,17)
+    assert res == (7,3,23,17)
 
 @pytest.mark.parametrize("versions, exp",[
     ([],"no releases"),

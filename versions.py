@@ -18,11 +18,21 @@ def create_page(name, data,source = ui.ListDataSource):
 
     return page
 
-@ui.in_background
-def epic_issues(src, project, version, epic):
+def change_title(f):
+    def func(src, *args):
 
-    title = src.title
-    src.title = "..."
+        title = src.title    
+        src.title = "..."
+
+        f(src,*args)
+
+        src.title = title 
+
+    return func
+
+@ui.in_background
+@change_title
+def epic_issues(src, project, version, epic):
 
     issues = jira.get_epic_issues(
         project,
@@ -40,17 +50,21 @@ def epic_issues(src, project, version, epic):
 
     res = '\n\n'.join(all)
 
-    src.title = title
-
     clipboard.set(res)
     webbrowser.open_new(
         'shortcuts://run-shortcut?name=CreateANote')
 
+def create_cell(ds,row):
+
+    cell = ui.TableViewCell()
+    cell.text_label.text = ds.items[row]
+
+    return cell
+
 class Epics(ui.ListDataSource):
     def tableview_cell_for_row(self, tableview, section, row):
 
-        cell = ui.TableViewCell()
-        cell.text_label.text = self.items[row]
+        cell = create_cell(self, row)
 
         create_button(
             cell, 
@@ -65,10 +79,8 @@ class Epics(ui.ListDataSource):
         return cell
 
 @ui.in_background
+@change_title
 def epics_page(src, project,version):
-
-    title = src.title
-    src.title = "..."
 
     key = (project,version)
 
@@ -83,7 +95,6 @@ def epics_page(src, project,version):
     page.project = key[0]
     page.version = key[1]
 
-    src.title = title
     nav.push_view(page)
 
 def create_button(cell, title, left, action):
@@ -98,8 +109,7 @@ def create_button(cell, title, left, action):
 class Versions(ui.ListDataSource):
     def tableview_cell_for_row(self, tableview, section, row):
 
-        cell = ui.TableViewCell()
-        cell.text_label.text = self.items[row]
+        cell = create_cell(self, row)
 
         create_button(
             cell, 
@@ -121,8 +131,7 @@ class Versions(ui.ListDataSource):
 class Releases(ui.ListDataSource):
     def tableview_cell_for_row(self, tableview, section, row):
 
-        cell = ui.TableViewCell()
-        cell.text_label.text = self.items[row]
+        cell = create_cell(self, row)
 
         create_button(
             cell, 
@@ -135,10 +144,8 @@ class Releases(ui.ListDataSource):
         return cell
 
 @ui.in_background
+@change_title
 def releases_page(src, proj):
-
-    title = src.title    
-    src.title = "..."
 
     if not versions.get(proj): 
 
@@ -153,7 +160,6 @@ def releases_page(src, proj):
     page.allows_selection = False
     page.project = proj
 
-    src.title = title
     nav.push_view(page)
 
 projects_page = create_page(

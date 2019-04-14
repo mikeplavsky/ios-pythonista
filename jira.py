@@ -117,7 +117,7 @@ def get_features(res):
 
     issues = res['issues']
     done = lambda x: resolution(x) == 'Done'
-    ps = lambda x: int(points(x))
+    ps = lambda x: int(points(x)) if points(x) else 0
 
     return (
         len(issues),
@@ -131,6 +131,7 @@ def get_features_header(issues):
     return (
         f"Features: {d_fs} of {fs}\n"
         f"Points: {d_ps} of {ps}")
+
 
 def enum_stories(data):
     
