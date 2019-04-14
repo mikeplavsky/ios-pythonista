@@ -9,36 +9,60 @@ import ui
 versions = dict()
 epics = dict()
 
-def create_page(name, data, delegate, source = ui.ListDataSource):
+def create_page(name, data,source = ui.ListDataSource):
 
     page = ui.TableView()
 
     page.name = name
-    page.delegate = delegate
     page.data_source = source(data) 
 
     return page
 
-class IssuesDelegate(object):
-    def tableview_did_select(self, tv, section, row):
+@ui.in_background
+def epic_issues(src, project, version, epic):
 
-        epic = tv.data_source.items[row]
+    title = src.title
+    src.title = "..."
 
-        issues = jira.get_epic_issues(tv.project,tv.version,epic)
-        all = jira.fmt_issues(issues)
+    issues = jira.get_epic_issues(
+        project,
+        version,
+        epic)
 
-        all.insert(0,
-            jira.get_features_header(issues))
+    all = jira.fmt_issues(issues)
 
-        all.insert(
-            0,
-            f"{tv.project}, {tv.version}, {epic}")
+    all.insert(0,
+        jira.get_features_header(issues))
 
-        res = '\n\n'.join(all)
+    all.insert(
+        0,
+        f"{project}, {version}, {epic}")
 
-        clipboard.set(res)
-        webbrowser.open_new(
-            'shortcuts://run-shortcut?name=CreateANote')
+    res = '\n\n'.join(all)
+
+    src.title = title
+
+    clipboard.set(res)
+    webbrowser.open_new(
+        'shortcuts://run-shortcut?name=CreateANote')
+
+class Epics(ui.ListDataSource):
+    def tableview_cell_for_row(self, tableview, section, row):
+
+        cell = ui.TableViewCell()
+        cell.text_label.text = self.items[row]
+
+        create_button(
+            cell, 
+            "issues", 
+            0.85, 
+            lambda src: epic_issues(
+                src,
+                tableview.project,
+                tableview.version,
+                tableview.data_source.items[row]))
+
+        return cell
 
 @ui.in_background
 def epics_page(src, project,version):
@@ -54,7 +78,7 @@ def epics_page(src, project,version):
     page = create_page(
         "Epics", 
         epics[key], 
-        IssuesDelegate())
+        Epics)
 
     page.project = key[0]
     page.version = key[1]
@@ -124,7 +148,6 @@ def releases_page(src, proj):
     page = create_page(
         "Releases", 
         versions[proj],
-        None,
         Versions) 
     
     page.allows_selection = False
@@ -138,7 +161,6 @@ projects_page = create_page(
         'RMADFE',
         'RMAZ',
         'QMMP'],
-        None,
         Releases)
 
 nav = ui.NavigationView(projects_page)
