@@ -30,6 +30,14 @@ def change_title(f):
 
     return func
 
+def create_note(all):
+
+    res = '\n\n'.join(all)
+
+    clipboard.set(res)
+    webbrowser.open_new(
+        'shortcuts://run-shortcut?name=CreateANote')
+
 @ui.in_background
 @change_title
 def epic_issues(src, project, version, epic):
@@ -48,11 +56,7 @@ def epic_issues(src, project, version, epic):
         0,
         f"{project}, {version}, {epic}")
 
-    res = '\n\n'.join(all)
-
-    clipboard.set(res)
-    webbrowser.open_new(
-        'shortcuts://run-shortcut?name=CreateANote')
+    create_note(all)
 
 @ui.in_background
 @change_title
@@ -71,11 +75,7 @@ def release_issues(src, project, version):
         0,
         f"{project}, {version}")
 
-    res = '\n\n'.join(all)
-
-    clipboard.set(res)
-    webbrowser.open_new(
-        'shortcuts://run-shortcut?name=CreateANote')
+    create_note(all)
 
 def create_cell(ds,row):
 
