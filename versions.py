@@ -9,9 +9,12 @@ import ui
 versions = dict()
 epics = dict()
 
-def create_page(data):
+def create_page(name, data, delegate):
 
     page = ui.TableView()
+
+    page.name = name
+    page.delegate = delegate
     page.data_source = ui.ListDataSource(data) 
 
     return page
@@ -46,12 +49,13 @@ class EpicsDelegate(object):
         if not epics.get(key):
             epics[key] = jira.get_epics(*key)
 
-        page = create_page(epics[key])
+        page = create_page(
+            "Epics", 
+            epics[key], 
+            IssuesDelegate())
 
         page.project = key[0]
         page.version = key[1]
-
-        page.delegate = IssuesDelegate() 
 
         nav.push_view(page)
 
@@ -65,19 +69,20 @@ class VersionsDelegate(object):
             versions[proj] = jira.get_versions_names(
                 dict(project=proj))
 
-        page = create_page(versions[proj]) 
+        page = create_page(
+            "Releases", 
+            versions[proj],
+            EpicsDelegate()) 
 
         page.project = proj
-        page.delegate = EpicsDelegate()
-
         nav.push_view(page)
 
-projects_page = create_page([
+projects_page = create_page(
+        "Products",[
         'RMADFE',
         'RMAZ',
-        'QMMP'])
-
-projects_page.delegate = VersionsDelegate()
+        'QMMP'],
+        VersionsDelegate())
 
 nav = ui.NavigationView(projects_page)
 nav.present()
