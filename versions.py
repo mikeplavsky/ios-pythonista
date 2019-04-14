@@ -54,6 +54,29 @@ def epic_issues(src, project, version, epic):
     webbrowser.open_new(
         'shortcuts://run-shortcut?name=CreateANote')
 
+@ui.in_background
+@change_title
+def release_issues(src, project, version):
+
+    issues = jira.get_release_issues(
+        project,
+        version) 
+
+    all = jira.fmt_issues(issues)
+
+    all.insert(0,
+        jira.get_features_header(issues))
+
+    all.insert(
+        0,
+        f"{project}, {version}")
+
+    res = '\n\n'.join(all)
+
+    clipboard.set(res)
+    webbrowser.open_new(
+        'shortcuts://run-shortcut?name=CreateANote')
+
 def create_cell(ds,row):
 
     cell = ui.TableViewCell()
@@ -115,7 +138,10 @@ class Versions(ui.ListDataSource):
             cell, 
             "issues", 
             0.7, 
-            None)
+            lambda src: release_issues(
+                src,
+                tableview.project,
+                tableview.data_source.items[row]))
 
         create_button(
             cell, 
