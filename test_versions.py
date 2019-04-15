@@ -2,6 +2,11 @@ import os
 import jira
 from config import jira_user
 import pytest
+
+import ui_mock
+import sys 
+sys.modules['ui'] = ui_mock
+
 import versions
 
 cmd = f"security find-generic-password -a {jira_user} -s jira -w"

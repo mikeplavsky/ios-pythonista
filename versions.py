@@ -67,7 +67,7 @@ def release_issues(src, project, version, dates):
     _, _, done, total = dates
 
     velocity = int(d_ps / done)
-    projection = int((ps - d_ps) / velocity)
+    projection = int((ps - d_ps) / velocity) if velocity else 0
 
     velocity_header = (
         f"Velocity: {velocity}\n"
@@ -244,7 +244,6 @@ if __name__ == '__main__':
     import jira
     jira.set_credentials()
 
-    from dialogs import list_dialog
     import clipboard
     import webbrowser
 
