@@ -63,10 +63,22 @@ def release_issues(src, project, version, dates):
     all = jira.fmt_issues(issues)
 
     fs, d_fs, ps, d_ps = jira.get_features(issues) 
+
+    _, _, done, total = dates
+
+    velocity = int(d_ps / done)
+    projection = int((total - done) / velocity)
+
+    velocity_header = (
+        f"Velocity: {velocity}\n"
+        f"Projection: {projection}"
+    )
+
     fs_header = (
         f"Features: {d_fs} of {fs}\n"
         f"Points: {d_ps} of {ps}")
 
+    all.insert(0,velocity_header)
     all.insert(0,fs_header)
 
     if dates: 
