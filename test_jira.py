@@ -10,13 +10,6 @@ jira.get_credentials = lambda _: (
         jira_user, 
         jira_pwd)
 
-def test_enum_stories():
-
-    res = jira.enum_stories(
-        dict(project="QMMP"))
-
-    assert len(res) > 5
-
 def test_get_sprint_features():
 
     given = jira.sprint_stories("RMAZ")
@@ -24,8 +17,8 @@ def test_get_sprint_features():
 
     assert fs > 0 
     assert ps > 0 
-    assert d_fs > 0 
-    assert d_ps > 0 
+    assert d_fs >= 0 
+    assert d_ps >= 0 
 
 def test_sprint_stories():
 
