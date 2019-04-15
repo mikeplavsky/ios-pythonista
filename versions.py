@@ -67,7 +67,7 @@ def release_issues(src, project, version, dates):
     _, _, done, total = dates
 
     velocity = int(d_ps / done)
-    projection = int((total - done) / velocity)
+    projection = int((ps - d_ps) / velocity)
 
     velocity_header = (
         f"Velocity: {velocity}\n"
