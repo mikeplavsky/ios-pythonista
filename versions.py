@@ -143,11 +143,29 @@ class Versions(ui.ListDataSource):
 
             from datetime import datetime 
 
-            s = datetime.strptime(r['startDate'], "%Y-%M-%d")
-            e = datetime.strptime(r['releaseDate'], "%Y-%M-%d")
+            startDate = r['startDate']  
+            releaseDate = r['releaseDate']  
 
-            delta = e - s
-            cell.detail_text_label.text = str(delta.days)
+            s = datetime.strptime(startDate, "%Y-%m-%d")
+            e = datetime.strptime(releaseDate, "%Y-%m-%d")
+
+            print(s)
+            print(e)
+
+            all_d = (e - s).days
+
+            if e > datetime.now():
+                e = datetime.now()
+
+            done = (e - s).days
+
+            text = (f"{startDate}\n"
+                    f"{releaseDate}\n")
+
+            text += f"{done} of {all_d}" if all_d > done else f"{done}"
+
+            cell.detail_text_label.text = text
+            cell.detail_text_label.number_of_lines = 0
 
         create_button(
             cell, 
