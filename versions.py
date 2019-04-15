@@ -137,6 +137,18 @@ class Versions(ui.ListDataSource):
             row,
             lambda x,r: x.items[r]['name'])
 
+        r = self.items[row]
+
+        if r.get('startDate') and r.get('releaseDate'):
+
+            from datetime import datetime 
+
+            s = datetime.strptime(r['startDate'], "%Y-%M-%d")
+            e = datetime.strptime(r['releaseDate'], "%Y-%M-%d")
+
+            delta = e - s
+            cell.detail_text_label.text = str(delta.days)
+
         create_button(
             cell, 
             "issues", 
