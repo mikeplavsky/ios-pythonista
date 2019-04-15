@@ -156,7 +156,7 @@ class Versions(ui.ListDataSource):
             lambda src: release_issues(
                 src,
                 tableview.project,
-                tableview.data_source.items[row]))
+                tableview.data_source.items[row]['name']))
 
         create_button(
             cell, 
@@ -165,7 +165,7 @@ class Versions(ui.ListDataSource):
             lambda src: epics_page(
                 src,
                 tableview.project, 
-                versions[tableview.project][row]))
+                versions[tableview.project][row]['name']))
 
         return cell
 
