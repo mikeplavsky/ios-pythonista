@@ -77,10 +77,10 @@ def release_issues(src, project, version):
 
     create_note(all)
 
-def create_cell(ds,row):
+def create_cell(ds,row, func = lambda x,r: x.items[r]):
 
-    cell = ui.TableViewCell()
-    cell.text_label.text = ds.items[row]
+    cell = ui.TableViewCell('subtitle')
+    cell.text_label.text = func(ds,row)
 
     return cell
 
@@ -132,7 +132,10 @@ def create_button(cell, title, left, action):
 class Versions(ui.ListDataSource):
     def tableview_cell_for_row(self, tableview, section, row):
 
-        cell = create_cell(self, row)
+        cell = create_cell(
+            self, 
+            row,
+            lambda x,r: x.items[r]['name'])
 
         create_button(
             cell, 
@@ -174,9 +177,7 @@ class Releases(ui.ListDataSource):
 def releases_page(src, proj):
 
     if not versions.get(proj): 
-
-        versions[proj] = jira.get_versions_names(
-            dict(project=proj))
+        versions[proj] = jira.get_versions(proj)
 
     page = create_page(
         "Releases", 
