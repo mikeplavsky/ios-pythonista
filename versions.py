@@ -34,6 +34,23 @@ def create_note(all):
 
 @ui.in_background
 @change_title
+def sprint_issues(src, project):
+
+    issues = jira.sprint_stories(project) 
+
+    all = jira.fmt_issues(issues)
+
+    all.insert(0,
+        jira.get_features_header(issues))
+
+    all.insert(
+        0,
+        f"{project}")
+
+    create_note(all)
+
+@ui.in_background
+@change_title
 def epic_issues(src, project, version, epic):
 
     issues = jira.get_epic_issues(
@@ -63,7 +80,6 @@ def release_issues(src, project, version, dates):
     all = jira.fmt_issues(issues)
 
     fs, d_fs, ps, d_ps = jira.get_features(issues) 
-
     _, _, done, total = dates
 
     velocity = d_ps / done if done > 0 else 0
@@ -212,6 +228,14 @@ class Releases(ui.ListDataSource):
     def tableview_cell_for_row(self, tableview, section, row):
 
         cell = create_cell(self, row)
+
+        create_button(
+            cell, 
+            "stories", 
+            0.65, 
+            lambda src: sprint_issues(
+                src, 
+                tableview.data_source.items[row]))
 
         create_button(
             cell, 
