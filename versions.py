@@ -66,7 +66,7 @@ def release_issues(src, project, version, dates):
 
     _, _, done, total = dates
 
-    velocity = d_ps / done
+    velocity = d_ps / done if done > 0 else 0
     projection = (ps - d_ps) / velocity if velocity else 0
 
     velocity_header = (
@@ -162,8 +162,7 @@ def release_dates(r):
     if e > datetime.now():
         e = datetime.now()
 
-    done = (e - s).days
-
+    done = (e - s).days if e > s else 0
     return (startDate, releaseDate, done, all)
 
 def dates_text(startDate, releaseDate, done, all):
@@ -171,7 +170,7 @@ def dates_text(startDate, releaseDate, done, all):
     text = (f"{startDate}\n"
             f"{releaseDate}\n")
 
-    text += f"{done} of {all}" if all > done else f"{done}"
+    text += f"{done} of {all}" if all > done else f"{all}"
     return text
 
 class Versions(ui.ListDataSource):
