@@ -132,6 +132,15 @@ def get_features_header(issues):
         f"Features: {d_fs} of {fs}\n"
         f"Points: {d_ps} of {ps}")
 
+def enum_stories(data):
+
+    res = sprint_stories(data['project']) 
+
+    issues = fmt_issues(res) 
+    issues.insert(0, get_features_header(res))
+
+    return issues
+
 def search_stories(project, text, all):
 
     not_closed = "" if all else "AND resolution = Unresolved AND status != Closed"
