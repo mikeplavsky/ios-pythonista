@@ -1,4 +1,5 @@
 import ui
+import dialogs
 
 versions = dict()
 epics = dict()
@@ -224,6 +225,13 @@ class Versions(ui.ListDataSource):
 
         return cell
 
+def more_about_project(src, project):
+    res = dialogs.list_dialog(
+        items =
+        ["Velocity", 
+        "Prev. Sprint",
+        "Epics"])
+
 class Releases(ui.ListDataSource):
     def tableview_cell_for_row(self, tableview, section, row):
 
@@ -232,7 +240,7 @@ class Releases(ui.ListDataSource):
         create_button(
             cell, 
             "stories", 
-            0.65, 
+            0.59, 
             lambda src: sprint_issues(
                 src, 
                 tableview.data_source.items[row]))
@@ -240,8 +248,16 @@ class Releases(ui.ListDataSource):
         create_button(
             cell, 
             "releases", 
-            0.85, 
+            0.77, 
             lambda src: releases_page(
+                src, 
+                tableview.data_source.items[row]))
+
+        create_button(
+            cell, 
+            "...", 
+            0.92, 
+            lambda src: more_about_project(
                 src, 
                 tableview.data_source.items[row]))
 
