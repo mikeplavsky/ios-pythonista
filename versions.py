@@ -201,7 +201,7 @@ class Versions(ui.ListDataSource):
         r = self.items[row]
         dates = release_dates(r)
 
-        hdr = cell.detail_text_label.text = dates_text(*dates) if dates else ''
+        cell.detail_text_label.text = dates_text(*dates) if dates else ''
         cell.detail_text_label.number_of_lines = 0
 
         create_button(

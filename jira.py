@@ -1,8 +1,6 @@
 import requests as r
 from requests.auth import HTTPBasicAuth
-
 from config import jira_host
-import json
 
 get_credentials = None
 
