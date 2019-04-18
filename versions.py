@@ -1,5 +1,4 @@
 import ui
-import dialogs
 
 versions = dict()
 epics = dict()
@@ -7,6 +6,7 @@ epics = dict()
 def create_page(name, data,source):
 
     page = ui.TableView()
+    page.allows_selection = False
 
     page.name = name
     page.data_source = source(data) 
@@ -226,6 +226,8 @@ class Versions(ui.ListDataSource):
         return cell
 
 def more_about_project(src, project):
+
+    import dialogs
     res = dialogs.list_dialog(
         items =
         ["Velocity", 
@@ -239,7 +241,7 @@ class Releases(ui.ListDataSource):
 
         create_button(
             cell, 
-            "stories", 
+            "sprint", 
             0.59, 
             lambda src: sprint_issues(
                 src, 
@@ -275,9 +277,7 @@ def releases_page(src, proj):
         versions[proj],
         Versions) 
     
-    page.allows_selection = False
     page.project = proj
-
     nav.push_view(page)
 
 if __name__ == '__main__':
