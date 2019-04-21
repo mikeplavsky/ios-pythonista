@@ -111,12 +111,12 @@ def sprint_stories(project):
         "resolution DESC" )
     return query(q)
 
+done = lambda x: status(x) == 'Closed'
+ps = lambda x: int(points(x)) if points(x) else 0
+
 def get_features(res):
 
     issues = res['issues']
-    done = lambda x: resolution(x) == 'Done'
-    ps = lambda x: int(points(x)) if points(x) else 0
-
     return (
         len(issues),
         len([x for x in issues if done(x)]),
