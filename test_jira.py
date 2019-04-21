@@ -109,3 +109,11 @@ def test_epic_issues(epic, len_func):
 def test_release_issues(version, count):
     res = jira.get_release_issues("RMADFE", version)
     assert len(res['issues']) > count
+
+def test_done_release():
+
+    issues = jira.get_release_issues("RMADFE", "10.0")
+    fs, d_fs, ps, d_ps = jira.get_features(issues) 
+
+    assert fs == d_fs
+    assert ps == d_ps

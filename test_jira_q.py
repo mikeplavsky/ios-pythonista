@@ -38,16 +38,16 @@ def test_get_features():
     feature = lambda ps,s: dict(
         fields=dict(
             customfield_10303 = f"{ps}" if ps else ps,
-            resolution=dict(name=s) if s else None))
+            status=dict(name=s)))
 
     given = dict(issues=[
-        feature(10, 'Done'),
-        feature(2, ''),
-        feature(None, 'Done'),
-        feature('', ''),
+        feature(10, 'Closed'),
+        feature(2, 'In Progress'),
+        feature(None, 'Closed'),
+        feature('', 'In Progress'),
         feature(1, 'Unresolved'),
-        feature(7, 'Done'),
-        feature(3, '')])
+        feature(7, 'Closed'),
+        feature(3, 'Rejected')])
 
     res = jira.get_features(given)
     assert res == (7,3,23,17)
