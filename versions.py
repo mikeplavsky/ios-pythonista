@@ -146,7 +146,7 @@ def all_epics_page(src, project):
         all_epics[project], 
         Epics)
 
-    page.project = key[0]
+    page.project = project
     nav.push_view(page)
 
 @ui.in_background
@@ -253,7 +253,7 @@ def more_about_project(src, project):
         return 
 
     if res == "Epics":
-        all_epics_page()
+        all_epics_page(src, project)
 
 class Releases(ui.ListDataSource):
     def tableview_cell_for_row(self, tableview, section, row):
@@ -263,7 +263,7 @@ class Releases(ui.ListDataSource):
         create_button(
             cell, 
             "sprint", 
-            0.59, 
+            0.57, 
             lambda src: sprint_issues(
                 src, 
                 tableview.data_source.items[row]))
@@ -271,14 +271,14 @@ class Releases(ui.ListDataSource):
         create_button(
             cell, 
             "releases", 
-            0.77, 
+            0.75, 
             lambda src: releases_page(
                 src, 
                 tableview.data_source.items[row]))
 
         create_button(
             cell, 
-            "...", 
+            "more", 
             0.92, 
             lambda src: more_about_project(
                 src, 
