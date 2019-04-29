@@ -174,6 +174,14 @@ def get_versions_names(data):
     res = get_versions(data['project'])
     return [r['name'] for r in res]
 
+def get_all_epics(project):
+    jql = (
+        f'issue in epicsFromQuery('
+        f'"project = {project}")'
+    )
+    res = query(jql)
+    return [x['fields']['customfield_12301'] for x in res['issues']]
+
 def get_epics(project,version):
     jql = (
         f'issue in epicsFromQuery('
