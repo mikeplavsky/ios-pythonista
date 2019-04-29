@@ -2,6 +2,7 @@ import ui
 
 versions = dict()
 epics = dict()
+all_epics = dict()
 
 def create_page(name, data,source):
 
@@ -135,6 +136,21 @@ class Epics(ui.ListDataSource):
 
 @ui.in_background
 @change_title
+def all_epics_page(src, project):
+
+    if not all_epics.get(project):
+        all_epics[project] = jira.get_all_epics(project)
+
+    page = create_page(
+        "Epics", 
+        all_epics[project], 
+        Epics)
+
+    page.project = key[0]
+    nav.push_view(page)
+
+@ui.in_background
+@change_title
 def epics_page(src, project,version):
 
     key = (project,version)
@@ -203,7 +219,6 @@ class Versions(ui.ListDataSource):
 
         cell.detail_text_label.text = dates_text(*dates) if dates else ''
         cell.detail_text_label.number_of_lines = 0
-
         create_button(
             cell, 
             "issues", 
@@ -233,6 +248,12 @@ def more_about_project(src, project):
         ["Velocity", 
         "Prev. Sprint",
         "Epics"])
+
+    if not res:
+        return 
+
+    if res == "Epics":
+        all_epics_page()
 
 class Releases(ui.ListDataSource):
     def tableview_cell_for_row(self, tableview, section, row):
