@@ -1,7 +1,6 @@
 import os
 import jira
 from config import jira_user
-import pytest
 
 import ui_mock
 import sys 

@@ -180,7 +180,7 @@ def get_all_epics(project):
         f'"project = {project}")'
     )
     res = query(jql)
-    return [x['fields']['customfield_12301'] for x in res['issues']]
+    return sorted([x['fields']['customfield_12301'] for x in res['issues']])
 
 def get_epics(project,version):
     jql = (
@@ -189,7 +189,7 @@ def get_epics(project,version):
         f'fixVersion = \'{version}\'")'
     )
     res = query(jql)
-    return [x['fields']['customfield_12301'] for x in res['issues']]
+    return sorted([x['fields']['customfield_12301'] for x in res['issues']])
 
 def get_release_issues(project,version):
 
@@ -204,10 +204,12 @@ def get_epic_issues(project,version,epic):
 
     jql =  (
         f'issue in linkedIssuesFromQuery("\'Epic Name\' ~ \'{epic}\'") AND '
-        f'project = "{project}" AND '
-        f'fixVersion = "{version}" ORDER BY '
-        f'resolution DESC'
-    )
+        f'project = "{project}"')
+
+    if version:
+        jql += f' AND fixVersion = "{version}" ' 
+        
+    jql += 'ORDER BY resolution DESC'
     return query(jql)
 
 def delete_issue(key):

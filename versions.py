@@ -66,8 +66,8 @@ def epic_issues(src, project, version, epic):
         jira.get_features_header(issues))
 
     all.insert(
-        0,
-        f"{project}, {version}, {epic}")
+        0, 
+        f"{project}, {version}, {epic}" if version else f"{project}, {epic}")
 
     create_note(all)
 
@@ -129,7 +129,7 @@ class Epics(ui.ListDataSource):
             lambda src: epic_issues(
                 src,
                 tableview.project,
-                tableview.version,
+                getattr(tableview,"version",None),
                 tableview.data_source.items[row]))
 
         return cell

@@ -97,14 +97,15 @@ def test_get_all_epics():
 
 def test_get_epics():
     res = jira.get_epics("RMADFE", "10.1")
-    assert len(res) == 14
+    assert len(res) == 13
 
-@pytest.mark.parametrize("epic, len_func",[
-    ("Zero Touch", lambda x: len(x) > 1),
-    ("Zero Touch 1", lambda x: len(x) == 0)])
-def test_epic_issues(epic, len_func):
-    res = jira.get_epic_issues("RMADFE", "10.1", epic)
-    assert len_func(res['issues'])
+@pytest.mark.parametrize("version, epic, num",[
+    ("10.1", "Bare Metal Recovery", 16),
+    (None, "Bare Metal Recovery", 230),
+    ("10.1", "Zero Touch 1", 0)])
+def test_epic_issues(version, epic, num):
+    res = jira.get_epic_issues("RMADFE", version, epic)
+    assert len(res['issues']) >= num
 
 @pytest.mark.parametrize("version, count",[
     ("9.0.1", 50),
