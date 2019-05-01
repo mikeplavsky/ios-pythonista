@@ -2,7 +2,6 @@ import ui
 
 versions = dict()
 epics = dict()
-all_epics = dict()
 
 def create_page(name, data,source):
 
@@ -136,22 +135,7 @@ class Epics(ui.ListDataSource):
 
 @ui.in_background
 @change_title
-def all_epics_page(src, project):
-
-    if not all_epics.get(project):
-        all_epics[project] = jira.get_all_epics(project)
-
-    page = create_page(
-        "Epics", 
-        all_epics[project], 
-        Epics)
-
-    page.project = project
-    nav.push_view(page)
-
-@ui.in_background
-@change_title
-def epics_page(src, project,version):
+def epics_page(src, project,version=None):
 
     key = (project,version)
 
@@ -253,7 +237,7 @@ def more_about_project(src, project):
         return 
 
     if res == "Epics":
-        all_epics_page(src, project)
+        epics_page(src, project)
 
 class Releases(ui.ListDataSource):
     def tableview_cell_for_row(self, tableview, section, row):

@@ -92,12 +92,12 @@ def test_epic():
     assert len(res) > 2
 
 def test_get_all_epics():
-    res = jira.get_all_epics("RMADFE")
+    res = jira.get_epics("RMADFE")
     assert len(res) == 38
 
 def test_get_epics():
     res = jira.get_epics("RMADFE", "10.1")
-    assert len(res) == 13
+    assert len(res) > 10
 
 @pytest.mark.parametrize("version, epic, num",[
     ("10.1", "Bare Metal Recovery", 16),

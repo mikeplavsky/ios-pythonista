@@ -31,11 +31,6 @@ def get_jira(url):
 
 status = lambda x: x['fields']['status']['name']
 
-def resolution(x): 
-
-    res = x['fields']['resolution']
-    return res['name'] if res else ''
-
 def sprints(v):
 
     s = v['fields']['customfield_12004']
@@ -174,21 +169,15 @@ def get_versions_names(data):
     res = get_versions(data['project'])
     return [r['name'] for r in res]
 
-def get_all_epics(project):
-    jql = (
-        f'issue in epicsFromQuery('
-        f'"project = {project}")'
-    )
-    res = query(jql)
-    return sorted([x['fields']['customfield_12301'] for x in res['issues']])
+def get_epics(project,version=None):
 
-def get_epics(project,version):
-    jql = (
-        f'issue in epicsFromQuery('
-        f'"project = {project} AND '
-        f'fixVersion = \'{version}\'")'
-    )
+    q = f'project = {project}'
+    if version:
+        q += f' AND fixVersion = \'{version}\''
+
+    jql = f'issue in epicsFromQuery("{q}")'
     res = query(jql)
+
     return sorted([x['fields']['customfield_12301'] for x in res['issues']])
 
 def get_release_issues(project,version):
