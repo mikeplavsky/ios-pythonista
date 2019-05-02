@@ -1,3 +1,3 @@
 rm -rf htmlcov
-pytest --cov-report html --cov
+pytest $1 --cov-report html --cov
 open htmlcov/index.html

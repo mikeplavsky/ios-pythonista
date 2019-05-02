@@ -70,18 +70,9 @@ def epic_issues(src, project, version, epic):
 
     create_note(all)
 
-@ui.in_background
-@change_title
-def release_issues(src, project, version, dates):
-
-    issues = jira.get_release_issues(
-        project,
-        version) 
-
-    all = jira.fmt_issues(issues)
+def add_velocity_and_features(all, issues, done):
 
     fs, d_fs, ps, d_ps = jira.get_features(issues) 
-    _, _, done, total = dates
 
     velocity = d_ps / done if done > 0 else 0
     projection = (ps - d_ps) / velocity if velocity else 0
@@ -99,6 +90,17 @@ def release_issues(src, project, version, dates):
 
     all.insert(0,velocity_header)
     all.insert(0,fs_header)
+
+@ui.in_background
+@change_title
+def release_issues(src, project, version, dates):
+
+    issues = jira.get_release_issues(
+        project,
+        version) 
+
+    all = jira.fmt_issues(issues)
+    add_velocity_and_features(all, issues, dates[2])
 
     if dates: 
         all.insert(0, dates_text(*dates))
