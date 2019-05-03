@@ -17,35 +17,40 @@ jira.get_credentials = lambda _: (
         jira_user, 
         jira_pwd)
 
-def test_velocity_issues():
+def mock_create_note():
 
     src = UserDict()
     src.title = ""
 
     res = []    
     setattr(versions, "create_note", lambda s: res.extend(s))
+
+    return src, res
+    
+def test_sprint_issues():
+
+    src, res = mock_create_note()    
+
+    versions.sprint_issues(src,"RMAZ")
+    assert res[0] == "RMAZ"
+
+def test_velocity_issues():
+
+    src, res = mock_create_note()    
 
     versions.velocity_issues(src,"RMAZ", 20)
     assert res[0] == "RMAZ, 20 days"
 
 def test_epic_issues():
 
-    src = UserDict()
-    src.title = ""
-
-    res = []    
-    setattr(versions, "create_note", lambda s: res.extend(s))
+    src, res = mock_create_note()    
 
     versions.epic_issues(src,"RMAZ","1.4", "Devices")
     assert res[0] == "RMAZ, 1.4, Devices"
 
 def test_release_issues():
 
-    src = UserDict()
-    src.title = ""
-
-    res = []    
-    setattr(versions, "create_note", lambda s: res.extend(s))
+    src, res = mock_create_note()    
 
     versions.release_issues(src,"RMAZ","1.4", [1,2,3,4])
     assert res[0] == "RMAZ, 1.4"
