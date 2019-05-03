@@ -10,6 +10,17 @@ jira.get_credentials = lambda _: (
         jira_user, 
         jira_pwd)
 
+def test_get_done_issues():
+
+    a = jira.get_done_issues('QMMP', 30)
+    b = jira.get_done_issues('QMMP', 90)
+
+    assert len(b['issues']) > len(a['issues'])
+    
+    sut = b['issues']
+    assert all(jira.status(i) == 'Closed' for i in sut)
+
+
 def test_get_sprint_features():
 
     given = jira.sprint_stories("RMAZ")

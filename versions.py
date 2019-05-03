@@ -76,20 +76,49 @@ def add_velocity_and_features(all, issues, done):
 
     velocity = d_ps / done if done > 0 else 0
     projection = (ps - d_ps) / velocity if velocity else 0
-
-    velocity_header = (
-        f"Velocity: {velocity * 10:.1f}\n"
-        f"Points: {ps - d_ps}\n"
-        f"Projection: {projection:.0f}\n"
-        f"Sprints: {projection/10:.0f}"
-    )
-
+    
+    velocity_header = f"Velocity: {velocity * 10:.1f}"
+    
+    if projection:
+    
+        velocity_header = (
+            f"Velocity: {velocity * 10:.1f}\n"
+            f"Points: {ps - d_ps}\n"
+            f"Projection: {projection:.0f}\n"
+            f"Sprints: {projection/10:.0f}"
+        )
+    
     fs_header = (
-        f"Features: {d_fs} of {fs}\n"
-        f"Points: {d_ps} of {ps}")
+        f"Features: {d_fs}\n"
+        f"Points: {d_ps}") 
+        
+    if projection:
+
+        fs_header = (
+            f"Features: {d_fs} of {fs}\n"
+            f"Points: {d_ps} of {ps}")
 
     all.insert(0,velocity_header)
     all.insert(0,fs_header)
+
+    return velocity, projection
+
+@ui.in_background
+@change_title
+def velocity_issues(src, project, days):
+
+    issues = jira.get_done_issues(
+        project,
+        days) 
+
+    all = jira.fmt_issues(issues)
+    add_velocity_and_features(all, issues, days)
+
+    all.insert(
+        0,
+        f"{project}, {days} days")
+
+    create_note(all)
 
 @ui.in_background
 @change_title
@@ -190,7 +219,7 @@ def dates_text(startDate, releaseDate, done, all):
             f"{releaseDate}\n")
 
     text += f"{done} of {all}" if all > done else f"{all}"
-    return text
+    return f"{text} days"
 
 class Versions(ui.ListDataSource):
     def tableview_cell_for_row(self, tableview, section, row):
@@ -232,7 +261,6 @@ def more_about_project(src, project):
     res = dialogs.list_dialog(
         items =
         ["Velocity", 
-        "Prev. Sprint",
         "Epics"])
 
     if not res:
@@ -240,6 +268,9 @@ def more_about_project(src, project):
 
     if res == "Epics":
         epics_page(src, project)
+
+    if res == "Velocity":
+        velocity_issues(src,project,30)
 
 class Releases(ui.ListDataSource):
     def tableview_cell_for_row(self, tableview, section, row):

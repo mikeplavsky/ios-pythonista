@@ -180,6 +180,17 @@ def get_epics(project,version=None):
 
     return sorted([x['fields']['customfield_12301'] for x in res['issues']])
 
+def get_done_issues(project, days):
+
+    jql =  (
+        f'project = "{project}" AND '
+        f'issuetype in standardIssueTypes() AND '
+        f'status = Closed AND '
+        f'status changed to closed AFTER -{days}d ' 
+        f'ORDER BY resolution DESC'
+    )
+    return query(jql)
+
 def get_release_issues(project,version):
 
     jql =  (

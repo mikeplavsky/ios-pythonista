@@ -1,12 +1,14 @@
 import os
 import jira
 from config import jira_user
+from collections import UserDict
 
 import ui_mock
 import sys 
 sys.modules['ui'] = ui_mock
 
 import versions
+versions.jira = jira
 
 cmd = f"security find-generic-password -a {jira_user} -s jira -w"
 jira_pwd = os.popen(cmd).read().strip()
@@ -14,6 +16,61 @@ jira_pwd = os.popen(cmd).read().strip()
 jira.get_credentials = lambda _: (
         jira_user, 
         jira_pwd)
+
+def test_velocity_issues():
+
+    src = UserDict()
+    src.title = ""
+
+    res = []    
+    setattr(versions, "create_note", lambda s: res.extend(s))
+
+    versions.velocity_issues(src,"RMAZ", 20)
+    assert res[0] == "RMAZ, 20 days"
+
+def test_epic_issues():
+
+    src = UserDict()
+    src.title = ""
+
+    res = []    
+    setattr(versions, "create_note", lambda s: res.extend(s))
+
+    versions.epic_issues(src,"RMAZ","1.4", "Devices")
+    assert res[0] == "RMAZ, 1.4, Devices"
+
+def test_release_issues():
+
+    src = UserDict()
+    src.title = ""
+
+    res = []    
+    setattr(versions, "create_note", lambda s: res.extend(s))
+
+    versions.release_issues(src,"RMAZ","1.4", [1,2,3,4])
+    assert res[0] == "RMAZ, 1.4"
+
+def test_velocity_header_days():
+
+    issues = jira.get_done_issues("RMAZ", 10)
+    res = []
+
+    v,p = versions.add_velocity_and_features(res, issues, 10)
+
+    assert res[0].find("of") == -1 
+    assert v > 0
+    assert p == 0
+
+def test_velocity_header_release():
+
+    issues = jira.get_release_issues("RMAZ","1.4")
+    res = []
+
+    v, p = versions.add_velocity_and_features(res, issues, 1)
+
+    assert res[0].find("of") != -1
+    assert v > 0
+    assert p > 0
 
 def test_release_dates():
 
