@@ -17,6 +17,28 @@ jira.get_credentials = lambda _: (
         jira_user, 
         jira_pwd)
 
+def test_create_button():
+
+    class Button:
+        def __init__(self, title):
+            self.title = title            
+
+    ui_mock.Button = Button
+
+    cell = UserDict()
+    cell.content_view = UserDict()
+
+    cell.content_view.width = 1
+    cell.content_view.height = 1
+
+    res = []    
+    cell.content_view.add_subview = lambda btn: res.append(btn)
+
+    versions.create_button(cell, "Test", 1, "action")
+
+    assert res[0].title == "Test" 
+    assert res[0].action == "action" 
+
 def mock_create_button():
 
     versions.create_cell = lambda x, y, _ = None: UserDict()    
@@ -114,6 +136,11 @@ def test_velocity_header_release():
     assert res[0].find("of") != -1
     assert v > 0
     assert p > 0
+
+def test_no_release_dates():
+
+    res = versions.release_dates(dict())
+    assert res == None
 
 def test_release_dates():
 
