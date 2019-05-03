@@ -17,6 +17,20 @@ jira.get_credentials = lambda _: (
         jira_user, 
         jira_pwd)
 
+def test_change_title():
+
+    res = []        
+    func = versions.change_title(
+            lambda src: res.append(src.title))
+
+    src = UserDict()
+    src.title = "Before"    
+
+    func(src)
+
+    assert src.title == "Before"
+    assert res[0] == "..."
+
 def test_create_button():
 
     class Button:
