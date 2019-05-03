@@ -222,6 +222,17 @@ def dates_text(startDate, releaseDate, done, all):
     return f"{text} days"
 
 class Versions(ui.ListDataSource):
+
+    def set_cell_text(self, cell, row):
+
+        r = self.items[row]
+        dates = release_dates(r)
+
+        cell.detail_text_label.text = dates_text(*dates) if dates else ''
+        cell.detail_text_label.number_of_lines = 0
+
+        return r, dates
+
     def tableview_cell_for_row(self, tableview, section, row):
 
         cell = create_cell(
@@ -229,11 +240,8 @@ class Versions(ui.ListDataSource):
             row,
             lambda x,r: x.items[r]['name'])
 
-        r = self.items[row]
-        dates = release_dates(r)
+        r, dates = self.set_cell_text(cell, row)
 
-        cell.detail_text_label.text = dates_text(*dates) if dates else ''
-        cell.detail_text_label.number_of_lines = 0
         create_button(
             cell, 
             "issues", 

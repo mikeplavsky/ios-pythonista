@@ -17,6 +17,44 @@ jira.get_credentials = lambda _: (
         jira_user, 
         jira_pwd)
 
+def mock_create_button():
+
+    versions.create_cell = lambda x, y, _ = None: UserDict()    
+
+    buttons = []
+    versions.create_button = lambda x, y, z, _ : buttons.append(y)    
+
+    return buttons
+    
+def test_versions_page():
+
+    buttons = mock_create_button()
+
+    sut = versions.Versions()
+    sut.set_cell_text = lambda x,y: (None,None)
+
+    sut.tableview_cell_for_row(None, None, None)
+
+    assert set(buttons) == set(["epics","issues"])
+
+def test_epics_page():
+
+    buttons = mock_create_button()
+
+    sut = versions.Epics()
+    sut.tableview_cell_for_row(None, None, None)
+
+    assert set(buttons) == set(["issues"])
+
+def test_releases_page():
+
+    buttons = mock_create_button()
+
+    sut = versions.Releases()
+    sut.tableview_cell_for_row(None, None, None)
+
+    assert set(buttons) == set(["sprint", "releases", "more"])
+
 def mock_create_note():
 
     src = UserDict()
