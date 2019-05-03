@@ -263,13 +263,26 @@ class Versions(ui.ListDataSource):
 
         return cell
 
+
+@ui.in_background
+@change_title
+def search_for_stories(src,project,txt):
+
+    all = jira.search_for_stories(dict(
+        project=project,
+        text = txt,
+        all = False
+    ))
+    create_note(all)
+
 def more_about_project(src, project):
 
     import dialogs
     res = dialogs.list_dialog(
         items =
         ["Velocity", 
-        "Epics"])
+        "Epics",
+        "Search"])
 
     if not res:
         return 
@@ -279,6 +292,16 @@ def more_about_project(src, project):
 
     if res == "Velocity":
         velocity_issues(src,project,30)
+
+    if res == "Search":
+        from dialogs import text_dialog
+
+        txt = text_dialog()
+        if not txt:
+            return  
+
+        search_for_stories(src,project,txt)
+
 
 class Releases(ui.ListDataSource):
     def tableview_cell_for_row(self, tableview, section, row):
