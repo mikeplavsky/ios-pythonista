@@ -136,7 +136,7 @@ def test_velocity_header_days():
 
     v,p = versions.add_velocity_and_features(res, issues, 10)
 
-    assert res[0].find("of") == -1 
+    assert res[0].find("of") != -1 
     assert v > 0
     assert p == 0
 

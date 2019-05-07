@@ -87,16 +87,10 @@ def add_velocity_and_features(all, issues, done):
             f"Projection: {projection:.0f}\n"
             f"Sprints: {projection/10:.0f}"
         )
-    
-    fs_header = (
-        f"Features: {d_fs}\n"
-        f"Points: {d_ps}") 
-        
-    if projection:
 
-        fs_header = (
-            f"Features: {d_fs} of {fs}\n"
-            f"Points: {d_ps} of {ps}")
+    fs_header = (
+        f"Features: {d_fs} of {fs}\n"
+        f"Points: {d_ps} of {ps}")
 
     all.insert(0,velocity_header)
     all.insert(0,fs_header)
