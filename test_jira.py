@@ -104,7 +104,7 @@ def test_epic():
 
 def test_get_all_epics():
     res = jira.get_epics("RMADFE")
-    assert len(res) == 38
+    assert len(res) > 30
 
 def test_get_epics():
     res = jira.get_epics("RMADFE", "10.1")
