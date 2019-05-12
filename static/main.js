@@ -36,27 +36,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _heroes_heroes_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./heroes/heroes.component */ "./src/app/heroes/heroes.component.ts");
-/* harmony import */ var _hero_detail_hero_detail_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./hero-detail/hero-detail.component */ "./src/app/hero-detail/hero-detail.component.ts");
+/* harmony import */ var _releases_releases_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./releases/releases.component */ "./src/app/releases/releases.component.ts");
+/* harmony import */ var _products_products_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./products/products.component */ "./src/app/products/products.component.ts");
 
 
 
 
 
-var routes = [{
-        path: "heroes",
-        component: _heroes_heroes_component__WEBPACK_IMPORTED_MODULE_3__["HeroesComponent"]
-    }, {
-        path: "detail/:id",
-        component: _hero_detail_hero_detail_component__WEBPACK_IMPORTED_MODULE_4__["HeroDetailComponent"]
-    }];
+var routes = [
+    { path: "", redirectTo: "products", pathMatch: 'full' },
+    { path: "product/:id/releases", component: _releases_releases_component__WEBPACK_IMPORTED_MODULE_3__["ReleasesComponent"] },
+    { path: "products", component: _products_products_component__WEBPACK_IMPORTED_MODULE_4__["ProductsComponent"] }
+];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
     }
     AppRoutingModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
-            exports: [_angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"]],
-            imports: [_angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"].forRoot(routes)]
+            declarations: [],
+            imports: [
+                _angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"].forRoot(routes)
+            ],
+            exports: [
+                _angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"]
+            ]
         })
     ], AppRoutingModule);
     return AppRoutingModule;
@@ -73,7 +76,7 @@ var AppRoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "h1 {\n    color: #369;\n    font-family: Arial, Helvetica, sans-serif;\n    font-size: 250%;\n}\n\nh2, h3 {\n    color: #444;\n    font-family: Arial, Helvetica, sans-serif;\n    font-weight: lighter;\n}\n\nbody {\n    margin: 2em;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvYXBwLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxXQUFXO0lBQ1gseUNBQXlDO0lBQ3pDLGVBQWU7QUFDbkI7O0FBRUE7SUFDSSxXQUFXO0lBQ1gseUNBQXlDO0lBQ3pDLG9CQUFvQjtBQUN4Qjs7QUFFQTtJQUNJLFdBQVc7QUFDZiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiaDEge1xuICAgIGNvbG9yOiAjMzY5O1xuICAgIGZvbnQtZmFtaWx5OiBBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmO1xuICAgIGZvbnQtc2l6ZTogMjUwJTtcbn1cblxuaDIsIGgzIHtcbiAgICBjb2xvcjogIzQ0NDtcbiAgICBmb250LWZhbWlseTogQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZjtcbiAgICBmb250LXdlaWdodDogbGlnaHRlcjtcbn1cblxuYm9keSB7XG4gICAgbWFyZ2luOiAyZW07XG59Il19 */"
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuY3NzIn0= */"
 
 /***/ }),
 
@@ -84,7 +87,7 @@ module.exports = "h1 {\n    color: #369;\n    font-family: Arial, Helvetica, san
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h1> {{ title }} </h1>\n<nav>\n    <a routerLink=\"/heroes\">Heroes</a>\n</nav>\n<router-outlet></router-outlet>"
+module.exports = "<router-outlet></router-outlet>\n"
 
 /***/ }),
 
@@ -104,7 +107,6 @@ __webpack_require__.r(__webpack_exports__);
 
 var AppComponent = /** @class */ (function () {
     function AppComponent() {
-        this.title = 'the show';
     }
     AppComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -134,10 +136,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _heroes_heroes_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./heroes/heroes.component */ "./src/app/heroes/heroes.component.ts");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _hero_detail_hero_detail_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./hero-detail/hero-detail.component */ "./src/app/hero-detail/hero-detail.component.ts");
-/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
+/* harmony import */ var _angular_material_list__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/material/list */ "./node_modules/@angular/material/esm5/list.es5.js");
+/* harmony import */ var _angular_material_icon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/material/icon */ "./node_modules/@angular/material/esm5/icon.es5.js");
+/* harmony import */ var _angular_material_button__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/material/button */ "./node_modules/@angular/material/esm5/button.es5.js");
+/* harmony import */ var _angular_material_menu__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/material/menu */ "./node_modules/@angular/material/esm5/menu.es5.js");
+/* harmony import */ var _product_actions_product_actions_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./product-actions/product-actions.component */ "./src/app/product-actions/product-actions.component.ts");
+/* harmony import */ var _angular_material_bottom_sheet__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/material/bottom-sheet */ "./node_modules/@angular/material/esm5/bottom-sheet.es5.js");
+/* harmony import */ var _releases_releases_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./releases/releases.component */ "./src/app/releases/releases.component.ts");
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var _products_products_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./products/products.component */ "./src/app/products/products.component.ts");
+
+
+
+
+
+
 
 
 
@@ -153,13 +167,22 @@ var AppModule = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
             declarations: [
                 _app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"],
-                _heroes_heroes_component__WEBPACK_IMPORTED_MODULE_4__["HeroesComponent"],
-                _hero_detail_hero_detail_component__WEBPACK_IMPORTED_MODULE_6__["HeroDetailComponent"]
+                _product_actions_product_actions_component__WEBPACK_IMPORTED_MODULE_9__["ProductActionsComponent"],
+                _releases_releases_component__WEBPACK_IMPORTED_MODULE_11__["ReleasesComponent"],
+                _products_products_component__WEBPACK_IMPORTED_MODULE_13__["ProductsComponent"]
+            ],
+            entryComponents: [
+                _product_actions_product_actions_component__WEBPACK_IMPORTED_MODULE_9__["ProductActionsComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_5__["FormsModule"],
-                _app_routing_module__WEBPACK_IMPORTED_MODULE_7__["AppRoutingModule"]
+                _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_4__["BrowserAnimationsModule"],
+                _angular_material_list__WEBPACK_IMPORTED_MODULE_5__["MatListModule"],
+                _angular_material_icon__WEBPACK_IMPORTED_MODULE_6__["MatIconModule"],
+                _angular_material_button__WEBPACK_IMPORTED_MODULE_7__["MatButtonModule"],
+                _angular_material_menu__WEBPACK_IMPORTED_MODULE_8__["MatMenuModule"],
+                _angular_material_bottom_sheet__WEBPACK_IMPORTED_MODULE_10__["MatBottomSheetModule"],
+                _app_routing_module__WEBPACK_IMPORTED_MODULE_12__["AppRoutingModule"]
             ],
             providers: [],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"]]
@@ -172,181 +195,246 @@ var AppModule = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/hero-detail/hero-detail.component.css":
-/*!*******************************************************!*\
-  !*** ./src/app/hero-detail/hero-detail.component.css ***!
-  \*******************************************************/
+/***/ "./src/app/product-actions/product-actions.component.css":
+/*!***************************************************************!*\
+  !*** ./src/app/product-actions/product-actions.component.css ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2hlcm8tZGV0YWlsL2hlcm8tZGV0YWlsLmNvbXBvbmVudC5jc3MifQ== */"
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3Byb2R1Y3QtYWN0aW9ucy9wcm9kdWN0LWFjdGlvbnMuY29tcG9uZW50LmNzcyJ9 */"
 
 /***/ }),
 
-/***/ "./src/app/hero-detail/hero-detail.component.html":
-/*!********************************************************!*\
-  !*** ./src/app/hero-detail/hero-detail.component.html ***!
-  \********************************************************/
+/***/ "./src/app/product-actions/product-actions.component.html":
+/*!****************************************************************!*\
+  !*** ./src/app/product-actions/product-actions.component.html ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"hero\">\n  <h2>{{hero.name}}</h2>\n  <label>name:\n    <input [(ngModel)]=\"hero.name\" placeholder=\"name\">\n  </label>\n</div>"
+module.exports = "<mat-nav-list>\n  <a mat-list-item *ngFor=\"let action of getActions()\" \n     href=\"/product/{{action.id}}/{{action.name | lowercase}}\">\n    <mat-icon mat-list-icon>{{action.icon}}</mat-icon>\n    <span mat-line>{{action.name}}</span>\n    <mat-divider></mat-divider>\n  </a>\n</mat-nav-list>"
 
 /***/ }),
 
-/***/ "./src/app/hero-detail/hero-detail.component.ts":
-/*!******************************************************!*\
-  !*** ./src/app/hero-detail/hero-detail.component.ts ***!
-  \******************************************************/
-/*! exports provided: HeroDetailComponent */
+/***/ "./src/app/product-actions/product-actions.component.ts":
+/*!**************************************************************!*\
+  !*** ./src/app/product-actions/product-actions.component.ts ***!
+  \**************************************************************/
+/*! exports provided: ProductActionsComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HeroDetailComponent", function() { return HeroDetailComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProductActionsComponent", function() { return ProductActionsComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _hero_service_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../hero-service.service */ "./src/app/hero-service.service.ts");
+/* harmony import */ var _angular_material_bottom_sheet__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/material/bottom-sheet */ "./node_modules/@angular/material/esm5/bottom-sheet.es5.js");
 
 
 
-var HeroDetailComponent = /** @class */ (function () {
-    function HeroDetailComponent(heroSvc) {
-        this.heroSvc = heroSvc;
+var ProductActionsComponent = /** @class */ (function () {
+    function ProductActionsComponent(data) {
+        this.data = data;
+        this.actions = [
+            { name: "Sprint", icon: "rowing" },
+            { name: "Velocity", icon: "motorcycle" },
+            { name: "Epics", icon: "track_changes" },
+            { name: "Releases", icon: "build" }
+        ];
     }
-    HeroDetailComponent.prototype.ngOnInit = function () {
-        this.hero = this.heroSvc.getHeroes()[0];
+    ProductActionsComponent.prototype.ngOnInit = function () {
     };
-    HeroDetailComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    ProductActionsComponent.prototype.getActions = function () {
+        var _this = this;
+        return this.actions.map(function (x) {
+            return tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, x, { id: _this.data.id });
+        });
+    };
+    ProductActionsComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
-            selector: 'app-hero-detail',
-            template: __webpack_require__(/*! ./hero-detail.component.html */ "./src/app/hero-detail/hero-detail.component.html"),
-            styles: [__webpack_require__(/*! ./hero-detail.component.css */ "./src/app/hero-detail/hero-detail.component.css")]
+            selector: 'app-product-actions',
+            template: __webpack_require__(/*! ./product-actions.component.html */ "./src/app/product-actions/product-actions.component.html"),
+            styles: [__webpack_require__(/*! ./product-actions.component.css */ "./src/app/product-actions/product-actions.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_hero_service_service__WEBPACK_IMPORTED_MODULE_2__["HeroServiceService"]])
-    ], HeroDetailComponent);
-    return HeroDetailComponent;
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](0, Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"])(_angular_material_bottom_sheet__WEBPACK_IMPORTED_MODULE_2__["MAT_BOTTOM_SHEET_DATA"])),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [Object])
+    ], ProductActionsComponent);
+    return ProductActionsComponent;
 }());
 
 
 
 /***/ }),
 
-/***/ "./src/app/hero-service.service.ts":
-/*!*****************************************!*\
-  !*** ./src/app/hero-service.service.ts ***!
-  \*****************************************/
-/*! exports provided: HeroServiceService */
+/***/ "./src/app/products.service.ts":
+/*!*************************************!*\
+  !*** ./src/app/products.service.ts ***!
+  \*************************************/
+/*! exports provided: ProductsService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HeroServiceService", function() { return HeroServiceService; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProductsService", function() { return ProductsService; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _mock_heroes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mock-heroes */ "./src/app/mock-heroes.ts");
 
 
-
-var HeroServiceService = /** @class */ (function () {
-    function HeroServiceService() {
+var ProductsService = /** @class */ (function () {
+    function ProductsService() {
+        this.products = [
+            { id: 1, name: "RMAD/FE" },
+            { id: 2, name: "RMAZ" },
+            { id: 3, name: "QMMP" }
+        ];
     }
-    HeroServiceService.prototype.getHeroes = function () {
-        return _mock_heroes__WEBPACK_IMPORTED_MODULE_2__["HEROES"];
+    ProductsService.prototype.getProducts = function () {
+        return this.products;
     };
-    HeroServiceService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    ProductsService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
             providedIn: 'root'
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
-    ], HeroServiceService);
-    return HeroServiceService;
+    ], ProductsService);
+    return ProductsService;
 }());
 
 
 
 /***/ }),
 
-/***/ "./src/app/heroes/heroes.component.css":
-/*!*********************************************!*\
-  !*** ./src/app/heroes/heroes.component.css ***!
-  \*********************************************/
+/***/ "./src/app/products/products.component.css":
+/*!*************************************************!*\
+  !*** ./src/app/products/products.component.css ***!
+  \*************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2hlcm9lcy9oZXJvZXMuY29tcG9uZW50LmNzcyJ9 */"
+module.exports = ".mat-list-icon {\n    color: rgba(0, 0, 0, 0.54);\n  }\n  \n .spacer {\n    flex: 1 1 auto;\n }\n\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvcHJvZHVjdHMvcHJvZHVjdHMuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtJQUNJLDBCQUEwQjtFQUM1Qjs7Q0FFRDtJQUNHLGNBQWM7Q0FDakIiLCJmaWxlIjoic3JjL2FwcC9wcm9kdWN0cy9wcm9kdWN0cy5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLm1hdC1saXN0LWljb24ge1xuICAgIGNvbG9yOiByZ2JhKDAsIDAsIDAsIDAuNTQpO1xuICB9XG4gIFxuIC5zcGFjZXIge1xuICAgIGZsZXg6IDEgMSBhdXRvO1xuIH1cblxuIl19 */"
 
 /***/ }),
 
-/***/ "./src/app/heroes/heroes.component.html":
-/*!**********************************************!*\
-  !*** ./src/app/heroes/heroes.component.html ***!
-  \**********************************************/
+/***/ "./src/app/products/products.component.html":
+/*!**************************************************!*\
+  !*** ./src/app/products/products.component.html ***!
+  \**************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ul>\n  <li *ngFor=\"let hero of heroes\">\n    <a routerLink=\"/detail/{{hero.id}}\">\n      <span>{{hero.id}}</span> {{hero.name}}\n    </a>\n  </li>\n</ul>\n"
+module.exports = "<mat-nav-list>\n  <mat-list-item *ngFor=\"let product of products\" (click)=\"openBottomSheet(product)\">\n    <mat-icon mat-list-icon>folder</mat-icon>\n    <span mat-line>{{product.name}}</span>\n  </mat-list-item>\n</mat-nav-list>"
 
 /***/ }),
 
-/***/ "./src/app/heroes/heroes.component.ts":
-/*!********************************************!*\
-  !*** ./src/app/heroes/heroes.component.ts ***!
-  \********************************************/
-/*! exports provided: HeroesComponent */
+/***/ "./src/app/products/products.component.ts":
+/*!************************************************!*\
+  !*** ./src/app/products/products.component.ts ***!
+  \************************************************/
+/*! exports provided: ProductsComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HeroesComponent", function() { return HeroesComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProductsComponent", function() { return ProductsComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _hero_service_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../hero-service.service */ "./src/app/hero-service.service.ts");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _product_actions_product_actions_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../product-actions/product-actions.component */ "./src/app/product-actions/product-actions.component.ts");
+/* harmony import */ var _products_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../products.service */ "./src/app/products.service.ts");
 
 
 
-var HeroesComponent = /** @class */ (function () {
-    function HeroesComponent(heroSvc) {
-        this.heroSvc = heroSvc;
+
+
+var ProductsComponent = /** @class */ (function () {
+    function ProductsComponent(sheet, productsSvc) {
+        this.sheet = sheet;
+        this.productsSvc = productsSvc;
     }
-    HeroesComponent.prototype.onSelect = function (h) {
-        this.selectedHero = h;
+    ProductsComponent.prototype.openBottomSheet = function (product) {
+        this.sheet.open(_product_actions_product_actions_component__WEBPACK_IMPORTED_MODULE_3__["ProductActionsComponent"], { data: tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, product) });
     };
-    HeroesComponent.prototype.ngOnInit = function () {
-        this.heroes = this.heroSvc.getHeroes();
-        console.log("Here!");
+    ProductsComponent.prototype.ngOnInit = function () {
+        this.products = this.productsSvc.getProducts();
     };
-    HeroesComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    ProductsComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
-            selector: 'app-heroes',
-            template: __webpack_require__(/*! ./heroes.component.html */ "./src/app/heroes/heroes.component.html"),
-            styles: [__webpack_require__(/*! ./heroes.component.css */ "./src/app/heroes/heroes.component.css")]
+            selector: 'app-products',
+            template: __webpack_require__(/*! ./products.component.html */ "./src/app/products/products.component.html"),
+            styles: [__webpack_require__(/*! ./products.component.css */ "./src/app/products/products.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_hero_service_service__WEBPACK_IMPORTED_MODULE_2__["HeroServiceService"]])
-    ], HeroesComponent);
-    return HeroesComponent;
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_material__WEBPACK_IMPORTED_MODULE_2__["MatBottomSheet"],
+            _products_service__WEBPACK_IMPORTED_MODULE_4__["ProductsService"]])
+    ], ProductsComponent);
+    return ProductsComponent;
 }());
 
 
 
 /***/ }),
 
-/***/ "./src/app/mock-heroes.ts":
-/*!********************************!*\
-  !*** ./src/app/mock-heroes.ts ***!
-  \********************************/
-/*! exports provided: HEROES */
+/***/ "./src/app/releases/releases.component.css":
+/*!*************************************************!*\
+  !*** ./src/app/releases/releases.component.css ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3JlbGVhc2VzL3JlbGVhc2VzLmNvbXBvbmVudC5jc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/releases/releases.component.html":
+/*!**************************************************!*\
+  !*** ./src/app/releases/releases.component.html ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n {{product.name}}\n</p>\n"
+
+/***/ }),
+
+/***/ "./src/app/releases/releases.component.ts":
+/*!************************************************!*\
+  !*** ./src/app/releases/releases.component.ts ***!
+  \************************************************/
+/*! exports provided: ReleasesComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HEROES", function() { return HEROES; });
-var HEROES = [
-    { id: 11, name: "Mr. Nice" },
-    { id: 12, name: "Mr. Bad" },
-    { id: 13, name: "Mr. One" },
-    { id: 14, name: "Mr. Two" },
-];
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ReleasesComponent", function() { return ReleasesComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _products_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../products.service */ "./src/app/products.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+
+
+
+
+var ReleasesComponent = /** @class */ (function () {
+    function ReleasesComponent(productsSvc, route) {
+        this.productsSvc = productsSvc;
+        this.route = route;
+    }
+    ReleasesComponent.prototype.ngOnInit = function () {
+        var id = +this.route.snapshot.paramMap.get("id");
+        this.product = this.productsSvc.getProducts().filter(function (x) { return x.id == id; });
+    };
+    ReleasesComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-releases',
+            template: __webpack_require__(/*! ./releases.component.html */ "./src/app/releases/releases.component.html"),
+            styles: [__webpack_require__(/*! ./releases.component.css */ "./src/app/releases/releases.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_products_service__WEBPACK_IMPORTED_MODULE_2__["ProductsService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]])
+    ], ReleasesComponent);
+    return ReleasesComponent;
+}());
+
 
 
 /***/ }),
@@ -388,18 +476,21 @@ var environment = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser-dynamic */ "./node_modules/@angular/platform-browser-dynamic/fesm5/platform-browser-dynamic.js");
-/* harmony import */ var _app_app_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./app/app.module */ "./src/app/app.module.ts");
-/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var hammerjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! hammerjs */ "./node_modules/hammerjs/hammer.js");
+/* harmony import */ var hammerjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(hammerjs__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser-dynamic */ "./node_modules/@angular/platform-browser-dynamic/fesm5/platform-browser-dynamic.js");
+/* harmony import */ var _app_app_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./app/app.module */ "./src/app/app.module.ts");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./environments/environment */ "./src/environments/environment.ts");
 
 
 
 
-if (_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].production) {
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["enableProdMode"])();
+
+if (_environments_environment__WEBPACK_IMPORTED_MODULE_4__["environment"].production) {
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["enableProdMode"])();
 }
-Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformBrowserDynamic"])().bootstrapModule(_app_app_module__WEBPACK_IMPORTED_MODULE_2__["AppModule"])
+Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_2__["platformBrowserDynamic"])().bootstrapModule(_app_app_module__WEBPACK_IMPORTED_MODULE_3__["AppModule"])
     .catch(function (err) { return console.error(err); });
 
 
@@ -412,7 +503,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/mikeplavsky/angular-tour-of-heroes/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /Users/mikeplavsky/a-jira/src/main.ts */"./src/main.ts");
 
 
 /***/ })

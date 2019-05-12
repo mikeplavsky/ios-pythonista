@@ -1,14 +1,19 @@
 from flask import Flask
-from flask import jsonify
+from flask import Response
 
 import jira
+import json
 
 app = Flask(
     __name__,
     static_folder='./static',
     static_url_path='')
 
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+
 if app.config["DEBUG"]:
+    
+    print('in debug mode.')
 
     from config import jira_user
     import os
@@ -19,14 +24,21 @@ if app.config["DEBUG"]:
     jira.get_credentials = lambda _: (
             jira_user, 
             jira_pwd)
+else:
+    
+    jira.set_credentials()
 
 @app.route('/')
 def main():
     return app.send_static_file('index.html')
 
-@app.route('/api/versions')
-def versions():
-    res = jira.get_versions("RMADFE")
-    return jsonify(res)
+@app.route('/api/product/<product>/versions')
+def versions(product):
+    
+    res = jira.get_versions(product)
+    txt = json.dumps(res)
 
-app.run('localhost', 8080, debug=False)
+    resp = Response(txt,mimetype='application/json')
+    return resp
+
+app.run('localhost', 8080, debug=True, use_reloader=False)
