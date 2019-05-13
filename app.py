@@ -9,7 +9,7 @@ app = Flask(
     static_folder='./static',
     static_url_path='')
 
-app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 1
 
 if app.config["DEBUG"]:
     
@@ -28,10 +28,6 @@ else:
     
     jira.set_credentials()
 
-@app.route('/')
-def main():
-    return app.send_static_file('index.html')
-
 @app.route('/api/product/<product>/versions')
 def versions(product):
     
@@ -39,6 +35,16 @@ def versions(product):
     txt = json.dumps(res)
 
     resp = Response(txt,mimetype='application/json')
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+
     return resp
 
-app.run('localhost', 8080, debug=True, use_reloader=False)
+@app.route('/')
+def main():
+    return app.send_static_file('index.html')
+
+@app.route('/product/<path:path>')
+def product(path):
+    return app.send_static_file('index.html')
+
+app.run('localhost', 8080, debug=False, use_reloader=False)
