@@ -44,7 +44,8 @@ def main():
     return app.send_static_file('index.html')
 
 @app.route('/product/<path:path>')
-def product(path):
+@app.route('/products')
+def product(path=''):
     return app.send_static_file('index.html')
 
 app.run('localhost', 8080, debug=False, use_reloader=False)
