@@ -40,9 +40,6 @@ def versions(product):
     return resp
 
 @app.route('/')
-def main():
-    return app.send_static_file('index.html')
-
 @app.route('/product/<path:path>')
 @app.route('/products')
 def product(path=''):
