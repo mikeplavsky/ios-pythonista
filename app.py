@@ -28,16 +28,29 @@ else:
     
     jira.set_credentials()
 
+def response(res):
+
+    resp = Response(
+        json.dumps(res),
+        mimetype='application/json')
+
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
+
+@app.route('/api/product/<product>/features/done')
+def done_features(product):
+    
+    issues = jira.get_done_issues(product, 30)
+    res = jira.get_features(issues)
+
+    return response(
+        dict(features=res[0], points = res[2]))
+
 @app.route('/api/product/<product>/versions')
 def versions(product):
     
-    res = jira.get_versions(product)
-    txt = json.dumps(res)
-
-    resp = Response(txt,mimetype='application/json')
-    resp.headers['Access-Control-Allow-Origin'] = '*'
-
-    return resp
+    return response(
+        jira.get_versions(product))
 
 @app.route('/')
 @app.route('/product/<path:path>')
