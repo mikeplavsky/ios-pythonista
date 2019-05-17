@@ -40,11 +40,17 @@ def response(res):
 @app.route('/api/product/<product>/features/done')
 def done_features(product):
     
-    issues = jira.get_done_issues(product, 30)
+    days = 30
+
+    issues = jira.get_done_issues(product, days)
     res = jira.get_features(issues)
 
+    velocity = round(res[2] / days * 10,1)
+
     return response(
-        dict(features=res[0], points = res[2]))
+        dict(velocity=velocity,
+            features=res[0],
+            points = res[2]))
 
 @app.route('/api/product/<product>/versions')
 def versions(product):
