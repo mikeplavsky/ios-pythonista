@@ -37,8 +37,24 @@ def response(res):
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
 
-@app.route('/api/product/<product>/features/done')
-def done_features(product):
+@app.route('/api/products/<product>/releases/<release>')
+def release_stats(product,release):
+
+    issues = jira.get_release_issues(
+        product, release)
+
+    res = jira.get_features(issues)
+
+    return response(
+        dict(
+            features = res[0],
+            done_features = res[1],
+            points = res[2],
+            done_points = res[3]))
+    
+
+@app.route('/api/products/<product>/features/done')
+def done_stats(product):
     
     days = 30
 
@@ -52,7 +68,7 @@ def done_features(product):
             features=res[0],
             points = res[2]))
 
-@app.route('/api/product/<product>/versions')
+@app.route('/api/products/<product>/versions')
 def versions(product):
     
     return response(
@@ -64,4 +80,4 @@ def versions(product):
 def product(path=''):
     return app.send_static_file('index.html')
 
-app.run('localhost', 8080, debug=False, use_reloader=False)
+app.run('localhost', 8080, debug=False, use_reloader=False, threaded=True)
