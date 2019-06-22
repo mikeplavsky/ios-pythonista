@@ -18,12 +18,10 @@ if app.config["DEBUG"]:
     from config import jira_user
     import os
 
-    cmd = f"security find-generic-password -a {jira_user} -s jira -w"
-    jira_pwd = os.popen(cmd).read().strip()
-
     jira.get_credentials = lambda _: (
-            jira_user, 
-            jira_pwd)
+            os.environ['JIRA_USER'], 
+            os.environ['JIRA_PWD'])
+
 else:
     
     jira.set_credentials()
