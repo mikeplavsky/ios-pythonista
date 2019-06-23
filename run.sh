@@ -8,7 +8,9 @@ fi
 JIRA_USER=$1
 JIRA_PWD=$(security find-generic-password -a $JIRA_USER -s jira -w)
 
-docker run -ti --rm \
+docker rm -f jira-proxy 
+docker run -d -ti \
+    --name jira-proxy \
     -e FLASK_DEBUG=true \
     -e JIRA_USER=$JIRA_USER \
     -e JIRA_PWD=$JIRA_PWD \
