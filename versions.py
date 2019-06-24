@@ -123,7 +123,10 @@ def release_issues(src, project, version, dates):
         version) 
 
     all = jira.fmt_issues(issues)
-    add_velocity_and_features(all, issues, dates[2])
+    add_velocity_and_features(
+        all, 
+        issues,
+        dates[2] if dates else 0)
 
     if dates: 
         all.insert(0, dates_text(*dates))
