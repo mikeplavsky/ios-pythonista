@@ -355,7 +355,8 @@ if __name__ == '__main__':
             "Products",[
             'RMADFE',
             'RMAZ',
-            'QMMP'],
+            'QMMP',
+            'ODRT'],
             Releases)
 
     nav = ui.NavigationView(projects_page)
