@@ -1,14 +1,11 @@
 import os
 import jira
-from config import jira_user
 import pytest
 
-cmd = f"security find-generic-password -a {jira_user} -s jira -w"
-jira_pwd = os.popen(cmd).read().strip()
-
-jira.get_credentials = lambda _: (
-        jira_user, 
-        jira_pwd)
+def setup_module():
+    jira.get_credentials = lambda _: (
+            os.environ['JIRA_USER'], 
+            os.environ['JIRA_PWD'])
 
 def test_get_done_issues():
 
