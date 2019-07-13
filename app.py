@@ -35,6 +35,14 @@ def response(res):
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
 
+@app.route('/api/products/<product>/releases/<release>/epics')
+def release_epics(product,release):
+
+    epics = jira.get_epics(
+        product, release)
+    
+    return response(epics);
+
 @app.route('/api/products/<product>/releases/<release>')
 def release_stats(product,release):
 
