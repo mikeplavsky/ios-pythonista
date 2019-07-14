@@ -110,7 +110,8 @@ def test_get_epics():
 @pytest.mark.parametrize("version, epic, num",[
     ("10.1", "Bare Metal Recovery", 16),
     (None, "Bare Metal Recovery", 230),
-    ("10.1", "Zero Touch 1", 0)])
+    ("10.1", "Zero Touch 1", 0),
+    ("10.1", "Restore/compare improvements", 1)])
 def test_epic_issues(version, epic, num):
     res = jira.get_epic_issues("RMADFE", version, epic)
     assert len(res['issues']) >= num

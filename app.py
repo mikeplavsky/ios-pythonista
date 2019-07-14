@@ -41,7 +41,26 @@ def release_epics(product,release):
     epics = jira.get_epics(
         product, release)
     
-    return response(epics);
+    return response(epics)
+
+@app.route('/api/products/<product>/releases/<release>/epics/<path:epic>')
+def epic_stats(product,release,epic):
+
+    print(product)
+    print(release)
+    print(epic)
+
+    issues = jira.get_epic_issues(
+        product, release, epic)
+
+    res = jira.get_features(issues)
+
+    return response(
+        dict(
+            features = res[0],
+            done_features = res[1],
+            points = res[2],
+            done_points = res[3]))
 
 @app.route('/api/products/<product>/releases/<release>')
 def release_stats(product,release):
