@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import Response
+from flask import Response, request
 
 import jira
 import json
@@ -34,6 +34,18 @@ def response(res):
 
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
+
+@app.route('/api/stories', methods=['POST'])
+def stories():
+
+    data = json.loads(request.data)
+
+    stories = jira.get_epic_issues(
+        data['product'],
+        data['release'],
+        data['epic'])
+    
+    return response(stories)
 
 @app.route('/api/products/<product>/releases/<release>/epics')
 def release_epics(product,release):
