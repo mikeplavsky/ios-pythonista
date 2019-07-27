@@ -117,4 +117,5 @@ def versions(product):
 def product(path=''):
     return app.send_static_file('index.html')
 
-app.run('localhost', 8080, debug=False, use_reloader=False, threaded=True)
+if  __name__ == '__main__':
+    app.run('localhost', 8080, debug=False, use_reloader=False, threaded=True)

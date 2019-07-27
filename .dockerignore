@@ -1,2 +1,7 @@
 *
 !*.txt
+!app.py
+!jira.py
+!config.py
+!start.sh
+!static
