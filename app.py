@@ -47,6 +47,11 @@ def stories():
     
     return response(stories)
 
+@app.route('/api/products/<product>/sprint')
+def sprint(product):
+    return response(
+        jira.sprint_stories(product))
+
 @app.route('/api/products/<product>/releases/<release>/epics')
 def release_epics(product,release):
 
@@ -112,7 +117,7 @@ def versions(product):
         jira.get_versions(product))
 
 @app.route('/')
-@app.route('/product/<path:path>')
+@app.route('/products/<path:path>')
 @app.route('/products')
 def product(path=''):
     return app.send_static_file('index.html')
