@@ -143,8 +143,8 @@ def search_stories(project, text, all):
         f"(summary ~ '{text}' OR "
         f"description ~ '{text}' OR "
         f"issue in linkedIssuesFromQuery(\"'Epic Name' ~ '{text}'\")) ORDER BY "
-        "status DESC")
-    return query(jql, max_results=20)
+        f"resolution DESC")
+    return query(jql, max_results=200)
 
 def search_for_stories(data):
 

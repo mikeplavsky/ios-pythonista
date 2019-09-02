@@ -35,6 +35,18 @@ def response(res):
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
 
+@app.route('/api/query', methods=['POST'])
+def query():
+
+    data = json.loads(request.data)
+
+    stories = jira.search_stories(
+        data['product'],
+        data['query'],
+        True)
+    
+    return response(stories)
+
 @app.route('/api/stories', methods=['POST'])
 def stories():
 
