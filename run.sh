@@ -14,6 +14,7 @@ docker run -d -ti \
     -e FLASK_DEBUG=true \
     -e JIRA_USER=$JIRA_USER \
     -e JIRA_PWD=$JIRA_PWD \
+    -e JIRA_PRODUCTS="RMADFE,RMAZ,QMMP,IN,AIRGAP" \
     -p 8080:8080 \
     -w /jira-proxy \
     -v "$(pwd)":/jira-proxy \

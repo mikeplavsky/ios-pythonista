@@ -101,7 +101,7 @@ def query(q, max_results=1000, error_if_more=False):
 def sprint_stories(project):
 
     q = (
-        f"project={project} AND " "sprint in openSprints() AND "
+        f"project=\"{project}\" AND " "sprint in openSprints() AND "
         "type not in subTaskIssueTypes() ORDER BY "
         "resolution DESC" )
     return query(q)
@@ -139,7 +139,7 @@ def search_stories(project, text, all):
     not_closed = "" if all else "AND resolution = Unresolved AND status != Closed"
 
     jql=(
-        f"project={project} {not_closed} AND "
+        f"project=\"{project}\" {not_closed} AND "
         f"(summary ~ '{text}' OR "
         f"description ~ '{text}' OR "
         f"issue in linkedIssuesFromQuery(\"'Epic Name' ~ '{text}'\")) ORDER BY "

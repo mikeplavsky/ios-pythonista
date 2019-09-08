@@ -59,12 +59,19 @@ def stories():
     
     return response(stories)
 
+@app.route('/api/products')
+def products():
+
+    products = os.environ['JIRA_PRODUCTS']
+    return response(
+        [dict(name=x) for x in products.split(',')])
+
 @app.route('/api/products/<product>/sprint')
 def sprint(product):
     return response(
         jira.sprint_stories(product))
 
-@app.route('/api/products/<product>/releases/<release>/epics')
+@app.route('/api/products/<pruduct>/releases/<release>/epics')
 def release_epics(product,release):
 
     epics = jira.get_epics(
