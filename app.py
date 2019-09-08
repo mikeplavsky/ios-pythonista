@@ -71,7 +71,7 @@ def sprint(product):
     return response(
         jira.sprint_stories(product))
 
-@app.route('/api/products/<pruduct>/releases/<release>/epics')
+@app.route('/api/products/<product>/releases/<release>/epics')
 def release_epics(product,release):
 
     epics = jira.get_epics(

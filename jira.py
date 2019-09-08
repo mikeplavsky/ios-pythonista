@@ -77,6 +77,8 @@ fmt_issues = lambda x: [fmt(v) for v in x['issues']]
 
 def query(q, max_results=1000, error_if_more=False):
 
+    print(q)
+
     url = f'https://{jira_host}/rest/api/latest/search?'
 
     query = dict(
@@ -171,7 +173,7 @@ def get_versions_names(data):
 
 def get_epics(project,version=None):
 
-    q = f'project = {project}'
+    q = f'project = \'{project}\''
     if version:
         q += f' AND fixVersion = \'{version}\''
 
